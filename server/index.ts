@@ -1,15 +1,22 @@
 import { serve } from "@hono/node-server";
+import { serveStatic } from "@hono/node-server/serve-static";
 import { Hono } from "hono";
 
 const app = new Hono();
 
-app.get("/", (c) => {
-  return c.text("Hello Hono!");
-});
-
 app.all("api/board", (c) => {
   return c.json({ data: "success" });
 });
+
+// VITE routes
+
+// paths relative to project root, not this file
+// client/assets
+app.use("/assets/*", serveStatic({ root: "./dist/client" }));
+// client/public
+app.use("/*", serveStatic({ root: "./dist/client/" }));
+// client/index.html
+app.use("/", serveStatic({ path: "./dist/client/index.html" }));
 
 serve(
   {
