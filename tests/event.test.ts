@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import Event from "../core/event";
+import Event from "../core/event.js";
 
 const ev = Event.make({
   message: "test event message",
@@ -27,7 +27,7 @@ describe("Event Controller", () => {
   });
   it("should add Reassign info", () => {
     Event.addReassign({ priorEvent: ev, newProvider: "Julius Irving" });
-    expect(ev.note.includes("Julius")).toBeTruthy();
+    expect(ev.note!.includes("Julius")).toBeTruthy();
   });
   it("should add patches", () => {
     expect(ev.patches.length).toBe(0);

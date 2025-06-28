@@ -5,16 +5,16 @@ import { makeBoard, lastEvent } from "./dummy.js";
 
 // add types for vitest context
 type Context = {
-  board?: Board;
-  shiftId?: Shift["id"];
-  shiftId2?: Shift["id"];
+  board: Board;
+  shiftId: Shift["id"];
+  shiftId2: Shift["id"];
 };
 
 describe("Board Controller", () => {
   describe("Make", () => {
     it("should make Board from config params", () => {
       const b = makeBoard();
-      expectTypeOf(b).toEqualTypeOf<typeof Board>();
+      expectTypeOf(b).toEqualTypeOf<Board>();
     });
   });
 
@@ -118,7 +118,7 @@ describe("Board Controller", () => {
     });
     it<Context>("should add an event for deletion", (c) => {
       Board.deleteShift(c.board, { shiftId: c.shiftId });
-      expect(lastEvent(c.board).message.includes("Deleted")).toBeTruthy();
+      expect(lastEvent(c.board).message!.includes("Deleted")).toBeTruthy();
     });
     it<Context>("should throw error if shift has patients assigned", (c) => {
       c.board.shifts[c.shiftId].assigned = 1;
@@ -137,16 +137,16 @@ describe("Board Controller", () => {
     it<Context>("should move next pointer forward and add Event", (c) => {
       Board.adjustRotation(c.board, { zoneSlug: "main", which: "next", offset: 1 });
       expect(c.board.zones.main.next).toEqual(1);
-      expect(lastEvent(c.board).message.includes("forward")).toBeTruthy();
+      expect(lastEvent(c.board).message!.includes("forward")).toBeTruthy();
     });
     it<Context>("should move super pointer forward and add Event", (c) => {
       Board.adjustRotation(c.board, { zoneSlug: "main", which: "super", offset: 1 });
       expect(c.board.zones.main.super).toEqual(1);
-      expect(lastEvent(c.board).message.includes("supervisor")).toBeTruthy();
+      expect(lastEvent(c.board).message!.includes("supervisor")).toBeTruthy();
     });
     it<Context>("should change event for backward adjustment", (c) => {
       Board.adjustRotation(c.board, { zoneSlug: "main", which: "next", offset: -1 });
-      expect(lastEvent(c.board).message.includes("back")).toBeTruthy();
+      expect(lastEvent(c.board).message!.includes("back")).toBeTruthy();
     });
   });
 
@@ -158,12 +158,12 @@ describe("Board Controller", () => {
     });
     it<Context>("should pause a shift and add Event", (c) => {
       expect(c.board.shifts[c.shiftId].status).toEqual("paused");
-      expect(lastEvent(c.board).message.includes("Paused")).toBeTruthy();
+      expect(lastEvent(c.board).message!.includes("Paused")).toBeTruthy();
     });
     it<Context>("should unpause a shift and add Event", (c) => {
       Board.togglePause(c.board, { shiftId: c.shiftId }); // unpause
       expect(c.board.shifts[c.shiftId].status).toEqual("active");
-      expect(lastEvent(c.board).message.includes("Unpaused")).toBeTruthy();
+      expect(lastEvent(c.board).message!.includes("Unpaused")).toBeTruthy();
     });
   });
 

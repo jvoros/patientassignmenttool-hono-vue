@@ -1,7 +1,7 @@
 import { describe, expect, it, expectTypeOf, beforeEach } from "vitest";
-import Zone from "../core/zone";
-import Shift from "../core/shift";
-import dummy from "./dummy";
+import Zone from "../core/zone.js";
+import Shift from "../core/shift.js";
+import dummy from "./dummy.js";
 
 // shifts not under test, won't be changed, can be global
 const docShift1 = Shift.make({ provider: dummy.providers[0], schedule: dummy.schedules[0] });
@@ -122,7 +122,7 @@ describe("Zone Controller", () => {
       const { testZone, testShifts } = getTestZone();
       testZone.next = 1;
       Zone.leaveZone({ zone: testZone, leaveShiftId: docShift1.id, shifts: testShifts });
-      expect(testZone.shifts[testZone.super]).toEqual(docShift2.id);
+      expect(testZone.shifts[testZone.super!]).toEqual(docShift2.id);
     });
     it("should set next to null if leaving shift is last shift", () => {
       const zoneDual = Zone.make(dummy.zones[0]);
@@ -144,7 +144,7 @@ describe("Zone Controller", () => {
         [docShift1.id]: docShift1,
       };
       Zone.leaveZone({ zone: zoneDual, leaveShiftId: docShift1.id, shifts });
-      expect(zoneDual.shifts[zoneDual.super]).toBeFalsy();
+      expect(zoneDual.shifts[zoneDual.super!]).toBeFalsy();
     });
   });
 
@@ -195,7 +195,7 @@ describe("Zone Controller", () => {
       expect(c.superId).toEqual(docShift2.id);
     });
     it("should advance super", (c) => {
-      expect(c.zone.super).toEqual(1);
+      expect(c.zone!.super).toEqual(1);
     });
   });
 });

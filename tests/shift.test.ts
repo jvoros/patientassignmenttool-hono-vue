@@ -1,6 +1,6 @@
 import { describe, expect, it, expectTypeOf } from "vitest";
-import Shift from "../core/shift";
-import dummy from "./dummy";
+import Shift from "../core/shift.js";
+import dummy from "./dummy.js";
 
 const schedule = dummy.schedules[0];
 const provider = dummy.providers[0];

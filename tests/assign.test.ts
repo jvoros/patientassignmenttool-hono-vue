@@ -1,14 +1,14 @@
 import { beforeEach, describe, expect, it, expectTypeOf } from "vitest";
-import Assign from "../core/assign";
-import Board from "../core/board";
-import dummy from "./dummy";
-import { makeBoard, lastEvent } from "./dummy";
+import Assign from "../core/assign.js";
+import Board from "../core/board.js";
+import dummy from "./dummy.js";
+import { makeBoard, lastEvent } from "./dummy.js";
 
 // add types for vitest context
 type Context = {
-  board?: Board;
-  shiftId?: Shift["id"];
-  shiftId2?: Shift["id"];
+  board: Board;
+  shiftId: Shift["id"];
+  shiftId2: Shift["id"];
 };
 
 describe("Assign Controller", () => {
@@ -35,7 +35,7 @@ describe("Assign Controller", () => {
     it<Context>("should assign a supervisor if needed", (c) => {
       const superId = lastEvent(c.board).super;
       expect(superId).toBeDefined();
-      expect(c.board.shifts[superId].supervised).toEqual(1);
+      expect(c.board.shifts[superId!].supervised).toEqual(1);
     });
     it.todo("should add patient arrival time to patient index", (c) => {});
   });
@@ -62,7 +62,7 @@ describe("Assign Controller", () => {
       // add app for tests
       Board.signIn(c.board, { schedule: dummy.schedules[1], provider: dummy.providers[1] });
       const zone = c.board.zones.main;
-      c.shiftId = zone.shifts[zone.next]; // pointer shift
+      c.shiftId = zone.shifts[zone.next!]; // pointer shift
       Assign.toZone(c.board, {
         zoneSlug: "main",
         mode: "ft",

@@ -1,5 +1,4 @@
-import { Patch } from "immer";
-import Board from "../core/board";
+import Board from "../core/board.js";
 
 type Dummy = {
   patients: { room: string; mode: PatientModes }[];
@@ -70,7 +69,7 @@ const dummy: Dummy = {
       slug: "off",
       name: "Off Rotation",
       type: "list",
-      superZone: null,
+      superZone: "",
     },
     {
       slug: "trauma",
@@ -81,7 +80,7 @@ const dummy: Dummy = {
   ],
 };
 
-export const makeBoard = () => {
+export const makeBoard = (): Board => {
   const board = Board.make({ slug: "smh", zoneConfig: dummy.zones });
   Board.signIn(board, { provider: dummy.providers[0], schedule: dummy.schedules[0] });
   return board;
