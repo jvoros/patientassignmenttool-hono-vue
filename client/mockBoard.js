@@ -86,7 +86,7 @@ const board = {
       id: "9sCwez",
       time: 1750708522692,
       patches: [],
-      mode: "ft",
+      mode: "ambo",
       room: "1",
       assign: "O40CbA",
       super: "O40CbA",

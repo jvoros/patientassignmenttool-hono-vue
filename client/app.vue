@@ -1,5 +1,6 @@
 <script setup>
-import board from "./mockBoard.js";
+import Header from "./components/header.vue";
+import Board from "./components/board.vue";
 
 async function getData() {
   const url = "./api/board";
@@ -15,10 +16,9 @@ async function getData() {
     console.error(error.message);
   }
 }
-
-console.log(board);
 </script>
 
 <template>
-  <h1>Vue Works</h1>
+  <Header />
+  <Board />
 </template>
