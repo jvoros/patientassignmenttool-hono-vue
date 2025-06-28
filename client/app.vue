@@ -1,4 +1,6 @@
 <script setup>
+import board from "./mockBoard.js";
+
 async function getData() {
   const url = "./api/board";
   try {
@@ -14,7 +16,7 @@ async function getData() {
   }
 }
 
-const board = getData();
+console.log(board);
 </script>
 
 <template>
