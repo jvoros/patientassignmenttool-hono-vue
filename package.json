@@ -14,7 +14,6 @@
   "dependencies": {
     "@hono/node-server": "^1.14.4",
     "@tailwindcss/vite": "^4.1.11",
-    "ant-design-vue": "^4.2.6",
     "basecoat-css": "^0.2.8",
     "hono": "^4.8.3",
     "immer": "^10.1.1",

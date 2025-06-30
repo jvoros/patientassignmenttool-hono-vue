@@ -2,7 +2,6 @@
 @import "tailwindcss";
 @import "basecoat-css";
 
-/* BASE VARS */
 :root {
   /* colors */
   --bg-color: var(--color-zinc-50);
@@ -26,24 +25,10 @@
 :root[class="dark-mode"] {
 }
 
-/* THEME */
-
 body {
   background-color: var(--bg-color);
   color: var(--text-color);
 }
-
-/* ANT OVERRIDES */
-
-.ant-btn-primary {
-  box-shadow: none;
-}
-
-.ant-dropdown-trigger {
-  outline: none;
-}
-
-/* UTILITY STYLES */
 
 .container {
   max-width: 1400px;
