@@ -5,23 +5,36 @@ event.assign = `${board.value.shifts[event.assign].first} ${board.value.shifts[e
 </script>
 <template>
   <div class="assign">
-    <div class="time">{{ formatTime(event.time) }}</div>
-    <div class="main">
-      <span>{{ event.assign }}</span>
-      <span>{{ event.room }}</span>
+    <div>
+      <div class="time">{{ formatTime(event.time) }}</div>
+      <div class="provider">{{ event.assign }}</div>
+      <div class="message" v-if="event.message">{{ event.message }}</div>
+      <div class="message" v-if="event.note">{{ event.note }}</div>
     </div>
-    <div class="message" v-if="event.message">{{ event.message }}</div>
-    <div class="message" v-if="event.note">{{ event.note }}</div>
+    <div class="room">{{ event.room }}</div>
   </div>
 </template>
 
 <style scoped>
 .assign {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   width: 100%;
   border: 1px solid var(--border);
   border-radius: var(--radius);
   background: white;
   padding: var(--padding-half);
+}
+
+.provider,
+.room {
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+.room {
+  padding-right: 1rem;
 }
 
 .time,
@@ -32,11 +45,6 @@ event.assign = `${board.value.shifts[event.assign].first} ${board.value.shifts[e
 }
 
 .main {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-weight: 700;
-  font-size: 1.5rem;
   padding-right: 1rem;
 }
 

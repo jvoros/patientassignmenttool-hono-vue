@@ -1,3 +1,14 @@
+<script setup>
+import { Button } from "ant-design-vue";
+
+import { toast } from "../store.js";
+import HeaderAddClinician from "./HeaderAddClinician.vue";
+
+const fireToast = () => {
+  toast("toasting!");
+};
+</script>
+
 <template>
   <header class="container">
     <div>
@@ -6,7 +17,8 @@
     </div>
 
     <nav>
-      <button>Test Update</button>
+      <Button size="default" @click="fireToast">Test Update</Button>
+      <HeaderAddClinician />
     </nav>
   </header>
 </template>

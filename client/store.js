@@ -1,4 +1,5 @@
 import { ref } from "vue";
+import { message } from "ant-design-vue";
 import mockBoard from "./mockBoard.js";
 
 export const board = ref(mockBoard);
@@ -12,4 +13,10 @@ export const formatTime = (epoch) => {
   });
 
   return formatter.format(new Date(epoch));
+};
+
+export const [messageApi, contextHolder] = message.useMessage();
+
+export const toast = (message) => {
+  messageApi.info(message);
 };

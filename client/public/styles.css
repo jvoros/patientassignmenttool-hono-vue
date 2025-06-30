@@ -1,22 +1,59 @@
-@import "normalize.css";
-@import "colors.css";
+@import "normalizeReal.css";
+/* @import "colors.css"; */
+@import "tw-colors.css";
 @import "fonts.css";
-@import "theme.css";
 
-body {
-  color: var(--text-primary);
-  background: var(--background);
+/* EXTRA NORMALIZE STYLE */
+:where(img, svg, video, canvas, audio, iframe, embed, object) {
+  display: block;
 }
+
+/* BASE VARS */
+:root {
+  /* colors */
+  --bg-color: var(--zinc-50);
+  --text-color: var(--zinc-700);
+  --text-muted: var(--zinc-400);
+  --border-color: var(--zinc-200);
+
+  /* layout */
+  --padding: 1rem 1rem;
+  --padding-half: 0.5rem 1rem;
+
+  /* borders */
+  --border: var(--border-color);
+  --radius: 0.375rem;
+  --radius-round: 1e5px;
+
+  /* icons */
+  --tl-icon-size: 1rem;
+}
+
+:root[class="dark-mode"] {
+}
+
+/* THEME */
+
+:where(html) {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+/* ANT OVERRIDES */
+
+.ant-btn-primary {
+  box-shadow: none;
+}
+
+.ant-dropdown-trigger {
+  outline: none;
+}
+
+/* UTILITY STYLES */
 
 .container {
   max-width: 1400px;
   margin-left: auto;
   margin-right: auto;
   padding: 1rem;
-}
-
-/* ## Zone */
-
-.zone {
-  margin-bottom: 2rem;
 }
