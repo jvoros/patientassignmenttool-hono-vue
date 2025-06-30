@@ -1,7 +1,7 @@
 <script setup>
 import { computed } from "vue";
+import { Undo2 } from "lucide-vue-next";
 import { board } from "../store.js";
-import { Button } from "ant-design-vue";
 import BoardHeader from "./BoardHeader.vue";
 import TimelineNode from "./TimelineNode.vue";
 
@@ -13,7 +13,9 @@ const timeline = computed(() => board.value.timeline.map((eventId) => board.valu
   <section class="tl-line">
     <template v-for="(event, index) in timeline">
       <TimelineNode :event="event" />
-      <div class="undo" v-if="index === 0"><Button>Undo</Button></div>
+      <div class="undo" v-if="index === 0">
+        <button class="btn-sm-icon-outline" data-tooltip="Undo"><Undo2 /></button>
+      </div>
     </template>
   </section>
 </template>
@@ -27,6 +29,7 @@ const timeline = computed(() => board.value.timeline.map((eventId) => board.valu
 .undo {
   display: flex;
   justify-content: end;
+  margin-top: -0.5rem;
   margin-bottom: 1rem;
 }
 </style>

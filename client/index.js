@@ -1,5 +1,5 @@
 import { createApp } from "vue";
-import "ant-design-vue/dist/reset.css";
+import "basecoat-css/all";
 
 import App from "./app.vue";
 

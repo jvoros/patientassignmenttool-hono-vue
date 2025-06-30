@@ -3,6 +3,7 @@ import { board, formatTime } from "../store.js";
 const { event } = defineProps(["event"]);
 event.assign = `${board.value.shifts[event.assign].first} ${board.value.shifts[event.assign].last}`;
 </script>
+
 <template>
   <div class="assign">
     <div>

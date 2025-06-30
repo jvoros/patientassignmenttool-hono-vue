@@ -30,7 +30,8 @@ const iconClass = `tl-icon-${icon}`;
 }
 
 .tl-icon-info {
-  --icon-border: var(--background);
+  --icon-border: var(--bg-color);
+  --icon-background: var(--bg-color);
 }
 
 .tl-icon-ft {

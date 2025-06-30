@@ -1,27 +1,31 @@
 <script setup>
-import { Dropdown, Menu, MenuItem, SubMenu } from "ant-design-vue";
-import { Menu as LucideMenu } from "lucide-vue-next";
+import { Menu } from "lucide-vue-next";
 </script>
 
 <template>
-  <Dropdown trigger="['click']" placement="bottom">
-    <LucideMenu size="14" />
-    <template #overlay>
-      <Menu>
-        <MenuItem>1st menu item</MenuItem>
-        <MenuItem>2nd menu item</MenuItem>
-        <div style="border-bottom: 1px solid var(--border)"></div>
-        <SubMenu key="sub1" title="sub menu">
-          <MenuItem>3rd menu item</MenuItem>
-          <MenuItem>4th menu item</MenuItem>
-        </SubMenu>
-        <SubMenu key="sub2" title="disabled sub menu" disabled>
-          <MenuItem>5d menu item</MenuItem>
-          <MenuItem>6th menu item</MenuItem>
-        </SubMenu>
-      </Menu>
-    </template>
-  </Dropdown>
+  <div class="dropdown-menu">
+    <button style="cursor: pointer"><Menu size="14" /></button>
+    <div data-popover aria-hidden="true" data-align="end" class="min-w-56">
+      <div role="menu">
+        <div role="group">
+          <div role="heading">My Account</div>
+          <div role="menuitem">Profile</div>
+          <div role="menuitem">Billing</div>
+          <div role="menuitem">Settings</div>
+          <div role="menuitem">Keyboard shortcuts</div>
+        </div>
+        <hr role="separator" />
+        <div role="menuitem">GitHub</div>
+        <div role="menuitem">Support</div>
+        <div role="menuitem" aria-disabled="true">API</div>
+        <hr role="separator" />
+        <div role="menuitem">
+          Logout
+          <span class="text-muted-foreground ml-auto text-xs tracking-widest">⇧⌘P</span>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <style scoped></style>

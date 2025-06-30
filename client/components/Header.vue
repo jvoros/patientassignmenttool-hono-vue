@@ -1,12 +1,5 @@
 <script setup>
-import { Button } from "ant-design-vue";
-
-import { toast } from "../store.js";
-import HeaderAddClinician from "./HeaderAddClinician.vue";
-
-const fireToast = () => {
-  toast("toasting!");
-};
+import { Stethoscope, ChevronDown } from "lucide-vue-next";
 </script>
 
 <template>
@@ -15,10 +8,21 @@ const fireToast = () => {
       <img src="/public/pat.svg" alt="Patient Assignment Tool Logo" />
       <h1>Patient Assignment Tool <span>v 1.0</span></h1>
     </div>
-
     <nav>
-      <Button size="default" @click="fireToast">Test Update</Button>
-      <HeaderAddClinician />
+      <div class="popover">
+        <button type="button" class="btn" popover-target="demo-popover">
+          <Stethoscope /> Add Clinician <ChevronDown />
+        </button>
+        <div
+          id="demo-popover"
+          data-popover
+          data-align="center"
+          aria-hidden="true"
+          class="w-80"
+        ></div>
+      </div>
+
+      <button class="btn-secondary dark-ghost">Logout</button>
     </nav>
   </header>
 </template>
@@ -51,5 +55,19 @@ h1 {
 h1 span {
   font-size: 1rem;
   font-weight: normal;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.dark-ghost {
+  background-color: var(--color-zinc-200);
+
+  &:hover {
+    background-color: var(--color-zinc-300);
+  }
 }
 </style>

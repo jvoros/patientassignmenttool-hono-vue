@@ -1,20 +1,14 @@
-@import "normalizeReal.css";
-/* @import "colors.css"; */
-@import "tw-colors.css";
-@import "fonts.css";
-
-/* EXTRA NORMALIZE STYLE */
-:where(img, svg, video, canvas, audio, iframe, embed, object) {
-  display: block;
-}
+@import "./fonts.css";
+@import "tailwindcss";
+@import "basecoat-css";
 
 /* BASE VARS */
 :root {
   /* colors */
-  --bg-color: var(--zinc-50);
+  --bg-color: var(--color-zinc-50);
   --text-color: var(--zinc-700);
-  --text-muted: var(--zinc-400);
-  --border-color: var(--zinc-200);
+  --text-muted: var(--color-zinc-400);
+  --border-color: var(--color-zinc-200);
 
   /* layout */
   --padding: 1rem 1rem;
@@ -34,7 +28,7 @@
 
 /* THEME */
 
-:where(html) {
+body {
   background-color: var(--bg-color);
   color: var(--text-color);
 }

@@ -1,6 +1,5 @@
 <script setup>
 import { computed } from "vue";
-
 import { board } from "../store.js";
 import ShiftMenu from "./ShiftMenu.vue";
 
@@ -12,7 +11,7 @@ const shift = computed(() => board.value.shifts[shiftId]);
 <template>
   <div class="shift">
     <div class="menubar">
-      <span>{{ shift.name }}</span>
+      <span class="shiftName">{{ shift.name }}</span>
       <div class="menu"><ShiftMenu /></div>
     </div>
     <div class="content">
@@ -38,11 +37,14 @@ const shift = computed(() => board.value.shifts[shiftId]);
   display: flex;
   justify-content: space-between;
   padding: 0.25rem 0.5rem;
-  text-transform: uppercase;
-  font-weight: 600;
   font-size: 0.8rem;
   color: var(--text-muted);
   background-color: var(--border);
+}
+
+.shiftName {
+  text-transform: uppercase;
+  font-weight: 600;
 }
 
 .menu {
