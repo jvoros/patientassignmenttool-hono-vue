@@ -24,7 +24,7 @@ event.assign = `${board.value.shifts[event.assign].first} ${board.value.shifts[e
   width: 100%;
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  background: white;
+  background: var(--bg-highlight);
   padding: var(--padding-half);
 }
 
@@ -40,7 +40,7 @@ event.assign = `${board.value.shifts[event.assign].first} ${board.value.shifts[e
 
 .time,
 .message {
-  font-family: var(--font-monospace-code);
+  font-family: var(--font-mono);
   font-size: 0.8rem;
   color: var(--text-muted);
 }

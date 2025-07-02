@@ -1,17 +1,13 @@
 <script setup>
-import { Info, Activity, UserPlus, Siren, Zap } from "lucide-vue-next";
-const { icon } = defineProps(["icon"]);
+import IconMode from "./IconMode.vue";
+const { mode } = defineProps(["mode"]);
 
-const iconClass = `tl-icon-${icon}`;
+const iconClass = `tl-icon-${mode}`;
 </script>
 
 <template>
   <div class="tl-icon" :class="iconClass">
-    <Info size="18" v-if="icon === 'info'" />
-    <Activity size="18" v-if="icon === 'ambo'" />
-    <UserPlus size="18" v-if="icon === 'walkin'" />
-    <Siren size="18" v-if="icon === 'police'" />
-    <Zap size="18" v-if="icon === 'ft'" />
+    <IconMode :mode="mode" />
   </div>
 </template>
 

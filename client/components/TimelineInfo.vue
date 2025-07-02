@@ -11,7 +11,7 @@ const { time, message } = defineProps(["time", "message"]);
 
 <style scoped>
 div {
-  font-family: var(--font-monospace-code);
+  font-family: var(--font-mono);
   font-size: 0.8rem;
   color: var(--text-muted);
 }

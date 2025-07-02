@@ -6,13 +6,14 @@ import Shift from "./Shift.vue";
 
 const { slug } = defineProps(["slug"]);
 const zone = computed(() => board.value.zones[slug]);
+const instructions = `Instructions for ${zone.value.name}`;
 </script>
 
 <template>
   <div class="zone">
-    <BoardHeader :title="zone.name" inst="Zone instructions go here." />
-    <template v-for="shiftId in zone.shifts">
-      <Shift :shiftId="shiftId" />
+    <BoardHeader :title="zone.name" :inst="instructions" />
+    <template v-for="(shiftId, index) in zone.shifts">
+      <Shift :shiftId="shiftId" :isNext="zone.next === index" :isSuper="zone.super === index" />
     </template>
   </div>
 </template>

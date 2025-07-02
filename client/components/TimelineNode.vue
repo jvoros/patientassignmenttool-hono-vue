@@ -5,11 +5,11 @@ import TimelineInfo from "./TimelineInfo.vue";
 import TimelineAssign from "./TimelineAssign.vue";
 
 const { event } = defineProps(["event"]);
-const icon = event.assign ? event.mode : "info";
+const mode = event.assign ? event.mode : "info";
 </script>
 <template>
   <div class="tl-node">
-    <TimelineIcon :icon="icon" />
+    <TimelineIcon :mode="mode" />
     <div class="tl-event">
       <TimelineAssign :event="event" v-if="event.assign !== undefined" />
       <TimelineInfo :time="formatTime(event.time)" :message="event.message" v-else />

@@ -21,14 +21,18 @@ main {
     "time";
   grid-gap: 0.5rem;
   grid-template-columns: 4fr 5fr 4fr;
+}
 
-  @media screen and (min-width: 700px) {
+@media screen and (min-width: 700px) {
+  main {
     grid-template-areas:
       "time main"
       "time other";
   }
+}
 
-  @media screen and (min-width: 1200px) {
+@media screen and (min-width: 1200px) {
+  main {
     grid-template-areas: "time main other";
     grid-gap: 0;
   }

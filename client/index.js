@@ -1,5 +1,4 @@
 import { createApp } from "vue";
-import "basecoat-css/all";
 
 import App from "./app.vue";
 

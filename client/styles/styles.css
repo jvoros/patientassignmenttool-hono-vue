@@ -1,20 +1,27 @@
-@import "./fonts.css";
-@import "tailwindcss";
-@import "basecoat-css";
+/* @import "./fonts.css"; */
+/* @import "tailwindcss";
+@import "basecoat-css"; */
+
+@import "./theme.css";
 
 :root {
   /* colors */
   --bg-color: var(--color-zinc-50);
-  --text-color: var(--zinc-700);
+  --text-color: var(--color-zinc-900);
+  --bg-muted: var(--color-zinc-100);
   --text-muted: var(--color-zinc-400);
+  --bg-highlight: white;
+  --bg-next: var(--color-amber-50);
+  --bg-next-menu: var(--color-amber-100);
   --border-color: var(--color-zinc-200);
+  --color-secondary: var(--color-zinc-200);
 
   /* layout */
   --padding: 1rem 1rem;
   --padding-half: 0.5rem 1rem;
 
   /* borders */
-  --border: var(--border-color);
+  --border: var(--color-secondary);
   --radius: 0.375rem;
   --radius-round: 1e5px;
 
@@ -22,7 +29,15 @@
   --tl-icon-size: 1rem;
 }
 
-:root[class="dark-mode"] {
+:root[class="dark"] {
+  --bg-color: var(--color-zinc-900);
+  --text-color: var(--color-zinc-200);
+  --bg-muted: var(--color-zinc-700);
+  --text-muted: var(--color-zinc-400);
+  --bg-highlight: var(--color-zinc-800);
+  --bg-next: transparent;
+  --bg-next-menu: var(--color-zinc-700);
+  --color-secondary: var(--color-zinc-700);
 }
 
 body {
@@ -35,4 +50,10 @@ body {
   margin-left: auto;
   margin-right: auto;
   padding: 1rem;
+}
+
+/* Basecoat Overrides */
+[data-tooltip]:before {
+  background-color: var(--color-secondary);
+  color: var(--text-color);
 }

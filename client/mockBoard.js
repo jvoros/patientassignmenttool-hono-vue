@@ -21,7 +21,7 @@ const board = {
       type: "simple",
       superZone: "main",
       triggerSkip: true,
-      next: 0,
+      next: null,
       super: null,
       shifts: ["O40CbA"],
     },
