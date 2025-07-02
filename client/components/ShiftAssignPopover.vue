@@ -6,6 +6,12 @@ import Popover from "./Popover.vue";
 
 const selectedMode = ref("");
 const selectedRoom = ref("");
+const resets = [selectedMode, selectedRoom];
+const isComplete = computed(() => resets.every((el) => el.value !== ""));
+
+const setMode = (mode) => {
+  selectedMode.value = mode;
+};
 
 const modes = [
   { tool: "walk in", slug: "walkin" },
@@ -13,25 +19,10 @@ const modes = [
   { tool: "ambo", slug: "ambo" },
   { tool: "police", slug: "police" },
 ];
-
-const setMode = (mode) => {
-  selectedMode.value = mode;
-};
-
-const isComplete = computed(() =>
-  selectedMode.value !== "" && selectedRoom.value !== "" ? true : false
-);
-
-const resetRefs = () => {
-  const refs = [selectedMode, selectedRoom];
-  refs.forEach((ref) => {
-    ref.value = "";
-  });
-};
 </script>
 
 <template>
-  <Popover align="center" @close="resetRefs()">
+  <Popover align="center" :resets="resets">
     <template #trigger>
       <button class="btn" popover-target="assign-popover">Assign <ChevronDown /></button>
     </template>

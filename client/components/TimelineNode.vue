@@ -1,5 +1,5 @@
 <script setup>
-import { formatTime } from "../store.js";
+import { formatTime } from "./store.js";
 import TimelineIcon from "./TimelineIcon.vue";
 import TimelineInfo from "./TimelineInfo.vue";
 import TimelineAssign from "./TimelineAssign.vue";

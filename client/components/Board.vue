@@ -1,5 +1,5 @@
 <script setup>
-import { board } from "../store.js";
+import { board } from "./store.js";
 import BoardGrid from "./BoardGrid.vue";
 import Timeline from "./Timeline.vue";
 import Zone from "./Zone.vue";

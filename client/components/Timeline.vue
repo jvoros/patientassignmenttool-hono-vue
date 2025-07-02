@@ -1,15 +1,15 @@
 <script setup>
 import { computed } from "vue";
 import { Undo2 } from "lucide-vue-next";
-import { board } from "../store.js";
-import BoardHeader from "./BoardHeader.vue";
+import { board } from "./store.js";
+import ZoneHeader from "./ZoneHeader.vue";
 import TimelineNode from "./TimelineNode.vue";
 
 const timeline = computed(() => board.value.timeline.map((eventId) => board.value.events[eventId]));
 </script>
 
 <template>
-  <BoardHeader title="Timeline" inst="Timeline instructions go here." />
+  <ZoneHeader title="Timeline" inst="Timeline instructions go here." />
   <section class="tl-line">
     <template v-for="(event, index) in timeline">
       <TimelineNode :event="event" />

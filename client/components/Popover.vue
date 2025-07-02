@@ -3,7 +3,9 @@ import { ref, useTemplateRef, onMounted, onUnmounted } from "vue";
 // properties from basecoat:
 // align: [start], center, end
 // side: [bottom], top, right, left
-const { align, side, menu } = defineProps(["align", "side", "menu"]);
+// menu: bool, should it apply .dropdown-menu class
+// resets: ref[], will set all to '' on close
+const { align, side, menu, resets } = defineProps(["align", "side", "menu", "resets"]);
 
 // open & close
 // basecoat transition based on 'aria-hidden' property
@@ -11,19 +13,23 @@ const isOpen = ref(false);
 const toggleState = () => (isOpen.value = !isOpen.value);
 
 // click outside
-// emit 'close' so parent can reset refs
+// emit 'close' in case needed
 const emit = defineEmits(["close"]);
 const component = useTemplateRef("popover");
 const outsideClick = (event) => {
   if (isOpen.value && !component.value.contains(event.target)) {
     toggleState();
+    if (resets !== undefined) {
+      resets.forEach((ref) => {
+        ref.value = "";
+      });
+    }
     emit("close");
   }
 };
 
 onMounted(() => {
   document.addEventListener("click", outsideClick);
-  console.log("menu: ", menu);
 });
 
 onUnmounted(() => {
@@ -32,7 +38,7 @@ onUnmounted(() => {
 </script>
 
 <!-- built on basecoat.css -->
-<!-- wrapper '.dropdown-menu' needed for menu, no effect is menu roles not used -->
+<!-- wrapper '.dropdown-menu' needed for menu, no effect if menu roles not used -->
 <!-- wrapper '.popover' required -->
 <!-- content 'data-popover' and 'aria-hidden' required -->
 <template>
@@ -52,6 +58,7 @@ onUnmounted(() => {
 }
 
 [data-popover] {
+  /* make tooltips pop outside popover */
   overflow: visible;
 }
 

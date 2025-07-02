@@ -1,7 +1,7 @@
 <script setup>
 import { computed } from "vue";
-import { board } from "../store.js";
-import BoardHeader from "./BoardHeader.vue";
+import { board } from "./store.js";
+import ZoneHeader from "./ZoneHeader.vue";
 import Shift from "./Shift.vue";
 
 const { slug } = defineProps(["slug"]);
@@ -11,7 +11,7 @@ const instructions = `Instructions for ${zone.value.name}`;
 
 <template>
   <div class="zone">
-    <BoardHeader :title="zone.name" :inst="instructions" />
+    <ZoneHeader :title="zone.name" :inst="instructions" />
     <template v-for="(shiftId, index) in zone.shifts">
       <Shift :shiftId="shiftId" :isNext="zone.next === index" :isSuper="zone.super === index" />
     </template>

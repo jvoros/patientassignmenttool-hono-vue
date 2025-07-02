@@ -1,6 +1,6 @@
 <script setup>
 import { computed } from "vue";
-import { board } from "../store.js";
+import { board } from "./store.js";
 import ShiftMenu from "./ShiftMenu.vue";
 import ShiftAssignPopover from "./ShiftAssignPopover.vue";
 
@@ -24,7 +24,7 @@ const shift = computed(() => board.value.shifts[shiftId]);
         </div>
       </div>
       <div class="buttons">
-        <span class="badge nextSup" v-if="isSuper">SUPER</span>
+        <span class="badge" v-if="isSuper">SUPER</span>
         <ShiftAssignPopover v-if="isNext" />
       </div>
     </div>
@@ -103,7 +103,7 @@ const shift = computed(() => board.value.shifts[shiftId]);
   text-align: center;
 }
 
-.nextSup {
+.badge {
   background-color: var(--color-blue-400);
   margin-right: 0.5rem;
 }

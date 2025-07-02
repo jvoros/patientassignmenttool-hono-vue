@@ -1,7 +1,4 @@
-/* @import "./fonts.css"; */
-/* @import "tailwindcss";
-@import "basecoat-css"; */
-
+@import "./basecoat.css";
 @import "./theme.css";
 
 :root {

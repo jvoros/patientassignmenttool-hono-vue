@@ -1,10 +1,22 @@
+<script setup>
+const toggleTheme = () => {
+  const classes = document.documentElement.classList;
+  const isDark = classes.contains("dark");
+  console.log("isDark: ", isDark);
+  if (isDark) {
+    classes.remove("dark");
+  } else {
+    classes.add("dark");
+  }
+};
+</script>
 <template>
   <button
     type="button"
     aria-label="Toggle dark mode"
     data-tooltip="Toggle dark mode"
     data-side="bottom"
-    onclick="document.dispatchEvent(new CustomEvent('basecoat:theme'))"
+    @click="toggleTheme"
     class="btn-icon-outline"
   >
     <span class="sun">

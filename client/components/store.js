@@ -1,5 +1,5 @@
 import { ref } from "vue";
-import mockBoard from "./mockBoard.js";
+import mockBoard from "../mockBoard.js";
 
 export const board = ref(mockBoard);
 
