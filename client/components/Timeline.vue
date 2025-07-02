@@ -9,7 +9,7 @@ const timeline = computed(() => board.value.timeline.map((eventId) => board.valu
 </script>
 
 <template>
-  <ZoneHeader title="Timeline" inst="Timeline instructions go here." />
+  <ZoneHeader title="Timeline" inst="Click a name or room number to reassign." />
   <section class="tl-line">
     <template v-for="(event, index) in timeline">
       <TimelineNode :event="event" />

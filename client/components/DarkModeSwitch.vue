@@ -2,7 +2,6 @@
 const toggleTheme = () => {
   const classes = document.documentElement.classList;
   const isDark = classes.contains("dark");
-  console.log("isDark: ", isDark);
   if (isDark) {
     classes.remove("dark");
   } else {
@@ -61,19 +60,13 @@ const toggleTheme = () => {
 </template>
 
 <style scoped>
-.sun {
-  display: none;
-}
-
-.dark .sun {
-  display: block;
-}
-
-.moon {
-  display: block;
-}
-
+.sun,
 .dark .moon {
   display: none;
+}
+
+.dark .sun,
+.moon {
+  display: block;
 }
 </style>

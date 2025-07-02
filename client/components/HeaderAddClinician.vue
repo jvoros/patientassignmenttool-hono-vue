@@ -14,7 +14,7 @@ const isComplete = computed(() => resets.every((el) => el.value !== ""));
     <template #trigger>
       <button class="btn"><Stethoscope /> Add Clinician <ChevronDown /></button>
     </template>
-    <div style="width: 12rem">
+    <div class="content" style="width: 12rem">
       <select class="select" v-model="selectedClinician">
         <option disabled value="">Clinician:</option>
         <option value="apple">Apple</option>
@@ -37,7 +37,7 @@ const isComplete = computed(() => resets.every((el) => el.value !== ""));
 </template>
 
 <style scoped>
-div > * {
+.content > * {
   width: 100%;
   margin-bottom: 0.5rem;
 }
