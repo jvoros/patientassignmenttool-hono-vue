@@ -11,8 +11,9 @@ const { shiftId, zoneType, isNext, isSuper } = defineProps([
   "zoneType",
 ]);
 const shift = computed(() => board.value.shifts[shiftId]);
-const useNextFlag = isNext && (zoneType === "rotation" || zoneType === "dual");
-const isSkipped = shift.value.status === "skip" && (zoneType === "rotation" || zoneType === "dual");
+const isRot = zoneType === "rotation" || zoneType === "dual";
+const useNextFlag = isNext && isRot;
+const isSkipped = shift.value.status === "skip" && isRot;
 </script>
 
 <template>
