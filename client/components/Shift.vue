@@ -4,16 +4,22 @@ import { board } from "./store.js";
 import ShiftMenu from "./ShiftMenu.vue";
 import ShiftAssignPopover from "./ShiftAssignPopover.vue";
 
-const { shiftId, isNext, isSuper } = defineProps(["shiftId", "isNext", "isSuper"]);
-
+const { shiftId, zoneType, isNext, isSuper } = defineProps([
+  "shiftId",
+  "isNext",
+  "isSuper",
+  "zoneType",
+]);
 const shift = computed(() => board.value.shifts[shiftId]);
+const useNextFlag = isNext && (zoneType === "rotation" || zoneType === "dual");
+const isSkipped = shift.value.status === "skip" && (zoneType === "rotation" || zoneType === "dual");
 </script>
 
 <template>
-  <div class="shift" :class="{ next: isNext }">
-    <div v-if="isNext" class="nextFlag">NEXT</div>
+  <div class="shift" :class="{ next: useNextFlag }">
+    <div v-if="useNextFlag" class="nextFlag">NEXT</div>
     <div class="menubar">
-      <span class="shiftName">{{ shift.name }}</span>
+      <span class="shiftName">{{ shift.name }} {{ shift.status }}</span>
       <div class="menu"><ShiftMenu /></div>
     </div>
     <div class="content">
@@ -24,7 +30,9 @@ const shift = computed(() => board.value.shifts[shiftId]);
         </div>
       </div>
       <div class="buttons">
-        <span class="badge" v-if="isSuper">SUPER</span>
+        <div class="badge skip-badge" v-if="isSkipped">SKIP</div>
+        <div class="badge pause-badge" v-if="shift.status === 'paused'">PAUSED</div>
+        <div class="badge super-badge" v-if="isSuper">SUPER</div>
         <ShiftAssignPopover v-if="isNext" />
       </div>
     </div>
@@ -46,6 +54,11 @@ const shift = computed(() => board.value.shifts[shiftId]);
   font-size: 0.8rem;
   background-color: var(--bg-muted);
   color: var(--text-muted);
+}
+
+.menubar:first-child {
+  border-top-left-radius: var(--radius);
+  border-top-right-radius: var(--radius);
 }
 
 .next > .menubar {
@@ -83,11 +96,6 @@ const shift = computed(() => board.value.shifts[shiftId]);
   color: var(--text-muted);
 }
 
-.buttons {
-  display: flex;
-  align-items: center;
-}
-
 .next {
   border-color: var(--color-amber-300);
   /* box-shadow: 0px 0px 2px 5px var(--color-amber-100); */
@@ -103,10 +111,31 @@ const shift = computed(() => board.value.shifts[shiftId]);
   text-align: center;
 }
 
+.buttons {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.badges {
+  display: flex;
+  gap: 0.25rem;
+}
+
 .badge {
-  background-color: var(--color-sky-500);
-  margin-right: 0.5rem;
   font-weight: 700;
   font-size: 0.7em;
+}
+
+.super-badge {
+  background-color: var(--color-sky-500);
+}
+
+.pause-badge {
+  background-color: var(--color-red-400);
+}
+
+.skip-badge {
+  background-color: var(--color-orange-400);
 }
 </style>

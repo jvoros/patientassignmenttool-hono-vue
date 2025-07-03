@@ -10,13 +10,22 @@ const zone = computed(() => board.value.zones[slug]);
 const instructions = `Instructions for ${zone.value.name}`;
 const isRotation = ["rotation", "dual"].includes(zone.value.type);
 const isSuperRot = ["dual", "super"].includes(zone.value.type);
+const isNext = (ind) => {
+  const z = zone.value;
+  return [z.next === ind, z.type === "simple" && ind === 0].some((condition) => condition);
+};
 </script>
 
 <template>
   <div class="zone">
     <ZoneHeader :title="zone.name" :inst="instructions" />
     <template v-for="(shiftId, index) in zone.shifts">
-      <Shift :shiftId="shiftId" :isNext="zone.next === index" :isSuper="zone.super === index" />
+      <Shift
+        :shiftId="shiftId"
+        :zoneType="zone.type"
+        :isNext="isNext(index)"
+        :isSuper="zone.super === index"
+      />
     </template>
     <div class="zone-controls" v-if="isRotation">
       <button class="btn-sm-outline" data-tooltip="Move rotation back">

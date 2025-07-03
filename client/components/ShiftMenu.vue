@@ -12,6 +12,7 @@ import {
   Plus,
 } from "lucide-vue-next";
 import Popover from "./Popover.vue";
+const { shift } = defineProps(["shift"]);
 
 const addZoneOpen = ref("");
 const moveZoneOpen = ref("");
