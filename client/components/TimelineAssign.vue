@@ -40,6 +40,10 @@ const docs = ["Jeremy Voros", "Julius Ivring", "Doc Watson"];
   padding: var(--padding-half);
 }
 
+.assign:hover .reassign-chevron {
+  visibility: visible;
+}
+
 .time,
 .message {
   font-family: var(--font-mono);

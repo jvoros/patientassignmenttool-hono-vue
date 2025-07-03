@@ -52,12 +52,13 @@ onUnmounted(() => {
   </div>
 </template>
 
-<style scoped>
+<style>
 .trigger {
   cursor: pointer;
 }
 
-[data-popover] {
+[data-popover],
+[role="menuitem"] {
   /* make tooltips pop outside popover */
   overflow: visible;
 }

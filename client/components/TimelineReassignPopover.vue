@@ -9,7 +9,7 @@ const { name, heading, items, align } = defineProps(["name", "heading", "items",
     <template #trigger>
       <div class="select">
         <h4>{{ name }}</h4>
-        <ChevronDown size="14" class="chevron" />
+        <ChevronDown class="reassign-chevron" size="14" />
       </div>
     </template>
     <div role="menu">
@@ -31,11 +31,11 @@ h4 {
   gap: 0.5rem;
 }
 
-.chevron {
+svg {
   visibility: hidden;
 }
 
-.reassign-popover:hover .chevron {
+.reassign-popover:hover svg {
   visibility: visible;
 }
 

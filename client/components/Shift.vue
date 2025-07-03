@@ -104,7 +104,9 @@ const shift = computed(() => board.value.shifts[shiftId]);
 }
 
 .badge {
-  background-color: var(--color-blue-400);
+  background-color: var(--color-sky-500);
   margin-right: 0.5rem;
+  font-weight: 700;
+  font-size: 0.7em;
 }
 </style>

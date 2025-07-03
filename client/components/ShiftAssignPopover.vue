@@ -14,10 +14,15 @@ const setMode = (mode) => {
 };
 
 const modes = [
-  { tool: "walk in", slug: "walkin" },
-  { tool: "fast track", slug: "ft" },
-  { tool: "ambo", slug: "ambo" },
-  { tool: "police", slug: "police" },
+  { tool: "Walk In", slug: "walkin" },
+  { tool: "Fast Track", slug: "ft" },
+  { tool: "Ambo", slug: "ambo" },
+  { tool: "Police", slug: "police" },
+];
+
+const rooms = [
+  1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27,
+  28, 29, 30,
 ];
 </script>
 
@@ -42,11 +47,7 @@ const modes = [
       <div>
         <select class="select" v-model="selectedRoom">
           <option disabled value="">Room:</option>
-          <option value="apple">Apple</option>
-          <option>Banana</option>
-          <option>Blueberry</option>
-          <option>Grapes</option>
-          <option>Pineapple</option>
+          <option v-for="room in rooms" :value="room">{{ room }}</option>
         </select>
       </div>
 
