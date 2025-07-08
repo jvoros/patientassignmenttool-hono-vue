@@ -14,14 +14,15 @@ const shift = computed(() => board.value.shifts[shiftId]);
 const isRot = zoneType === "rotation" || zoneType === "dual";
 const useNextFlag = isNext && isRot;
 const isSkipped = shift.value.status === "skip" && isRot;
+const isPaused = shift.value.status === "paused" && isRot;
 </script>
 
 <template>
   <div class="shift" :class="{ next: useNextFlag }">
     <div v-if="useNextFlag" class="nextFlag">NEXT</div>
     <div class="menubar">
-      <span class="shiftName">{{ shift.name }} {{ shift.status }}</span>
-      <div class="menu"><ShiftMenu /></div>
+      <span class="shiftName">{{ shift.name }}</span>
+      <div class="menu"><ShiftMenu :isPaused="isPaused" /></div>
     </div>
     <div class="content">
       <div>
@@ -32,7 +33,7 @@ const isSkipped = shift.value.status === "skip" && isRot;
       </div>
       <div class="buttons">
         <div class="badge skip-badge" v-if="isSkipped">SKIP</div>
-        <div class="badge pause-badge" v-if="shift.status === 'paused'">PAUSED</div>
+        <div class="badge pause-badge" v-if="isPaused">PAUSED</div>
         <div class="badge super-badge" v-if="isSuper">SUPER</div>
         <ShiftAssignPopover v-if="isNext" />
       </div>

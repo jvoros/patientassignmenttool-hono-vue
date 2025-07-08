@@ -61,7 +61,7 @@ const board = {
       id: "O40CbA",
       name: "6a-3p APP",
       bonus: 0,
-      status: "skip",
+      status: "paused",
       assigned: 2,
       supervised: 1,
       last: "Kasvana",

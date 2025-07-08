@@ -1,69 +1,48 @@
 <script setup>
-import { ref, useTemplateRef, onMounted, onUnmounted } from "vue";
+import { ref, useTemplateRef, onMounted, onUnmounted, provide } from "vue";
 // properties from basecoat:
-// align: [start], center, end
-// side: [bottom], top, right, left
-// menu: bool, should it apply .dropdown-menu class
+// menu: bool, should it apply .dropdown-menu class to style menu
 // resets: ref[], will set all to '' on close
-const { align, side, menu, resets } = defineProps(["align", "side", "menu", "resets"]);
+const { menu, resets } = defineProps(["menu", "resets"]);
 
-// open & close
-// basecoat transition based on 'aria-hidden' property
 const isOpen = ref(false);
-const toggleState = () => (isOpen.value = !isOpen.value);
+provide("isOpen", isOpen);
 
 // click outside
-// emit 'close' in case needed
-const emit = defineEmits(["close"]);
 const component = useTemplateRef("popover");
 const outsideClick = (event) => {
-  if (isOpen.value && !component.value.contains(event.target)) {
-    toggleState();
-    if (resets !== undefined) {
-      resets.forEach((ref) => {
-        ref.value = "";
-      });
+    if (isOpen.value && !component.value.contains(event.target)) {
+        isOpen.value = false;
+        if (resets !== undefined) {
+            resets.forEach((ref) => {
+                ref.value = "";
+            });
+        }
     }
-    emit("close");
-  }
 };
 
 onMounted(() => {
-  document.addEventListener("click", outsideClick);
+    document.addEventListener("click", outsideClick);
 });
 
 onUnmounted(() => {
-  document.removeEventListener("click", outsideClick);
+    document.removeEventListener("click", outsideClick);
 });
 </script>
 
 <!-- built on basecoat.css -->
 <!-- wrapper '.dropdown-menu' needed for menu, no effect if menu roles not used -->
 <!-- wrapper '.popover' required -->
-<!-- content 'data-popover' and 'aria-hidden' required -->
 <template>
-  <div class="my-popover" :class="{ 'dropdown-menu': menu }">
-    <div class="popover" ref="popover">
-      <span @click="toggleState" class="trigger"><slot name="trigger"></slot></span>
-      <div data-popover :data-align="align" :data-side="side" :aria-hidden="!isOpen">
-        <slot></slot>
-      </div>
+    <div class="my-popover" :class="{ 'dropdown-menu': menu }">
+        <div class="popover" ref="popover">
+            <slot></slot>
+        </div>
     </div>
-  </div>
 </template>
 
 <style>
-.trigger {
-  cursor: pointer;
-}
-
-[data-popover],
-[role="menuitem"] {
-  /* make tooltips pop outside popover */
-  overflow: visible;
-}
-
 .dropdown-menu [data-popover] {
-  padding: 0.5rem 0.25rem;
+    padding: 0.5rem 0.25rem;
 }
 </style>

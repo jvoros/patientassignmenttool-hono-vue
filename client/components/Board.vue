@@ -1,22 +1,63 @@
 <script setup>
 import { board } from "./store.js";
-import BoardGrid from "./BoardGrid.vue";
 import Timeline from "./Timeline.vue";
 import Zone from "./Zone.vue";
 </script>
 
 <template>
-  <BoardGrid class="container">
-    <template #timeline>
+  <main class="grid container">
+    <section class="grid-timeline">
       <Timeline />
-    </template>
-    <template #main>
+    </section>
+    <section class="grid-main">
       <Zone :slug="board.zoneOrder[0]" />
-    </template>
-    <template #other>
-      <template v-for="slug in board.zoneOrder.slice(1)">
-        <Zone :slug="slug" />
-      </template>
-    </template>
-  </BoardGrid>
+    </section>
+    <section class="grid-other">
+      <Zone v-for="slug in board.zoneOrder.slice(1)" :slug="slug" />
+    </section>
+  </main>
 </template>
+
+<style scoped>
+main {
+  display: grid;
+  grid-template-areas:
+    "main"
+    "other"
+    "time";
+  grid-gap: 0.5rem;
+  grid-template-columns: 4fr 5fr 4fr;
+}
+
+@media screen and (min-width: 700px) {
+  main {
+    grid-template-areas:
+      "time main"
+      "time other";
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  main {
+    grid-template-areas: "time main other";
+    grid-gap: 0;
+  }
+}
+
+.grid-timeline {
+  grid-area: time;
+}
+
+.grid-main {
+  grid-area: main;
+}
+
+.grid-other {
+  grid-area: other;
+}
+
+section {
+  border: 0px solid lightgray;
+  padding: var(--padding);
+}
+</style>
