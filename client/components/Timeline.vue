@@ -1,15 +1,16 @@
 <script setup>
-import { computed, ref } from "vue";
-import { Undo2, ListFilter } from "lucide-vue-next";
+import { ref } from "vue";
+import { Undo2 } from "lucide-vue-next";
 import { board } from "./store.js";
 import ZoneHeader from "./ZoneHeader.vue";
 import TimelineFilter from "./TimelineFilter.vue";
 import TimelineNode from "./TimelineNode.vue";
 
 const filterClinician = ref("");
-const timeline = computed(() =>
-    board.value.timeline.map((eventId) => board.value.events[eventId]),
+const timeline = board.value.timeline.map(
+    (eventId) => board.value.events[eventId],
 );
+
 const setFilter = (clinician) => {
     filterClinician.value = clinician;
 };

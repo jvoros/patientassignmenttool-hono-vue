@@ -1,24 +1,26 @@
 <script setup>
-import Header from "./components/header.vue";
-import Board from "./components/board.vue";
+import { onMounted } from "vue";
+import { user, setUser, post } from "./components/store.js";
+import Header from "./components/Header.vue";
+import Board from "./components/Board.vue";
+import Login from "./components/Login.vue";
 
-async function getData() {
-  const url = "./api/board";
-  try {
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error(`Response status: ${response.status}`);
-    }
+const checkLogin = async () => {
+    const res = await post("/api/auth/checklogin");
+    if (res.status === "noauth") setUser(null);
+    if (res.id !== undefined) setUser(res.id);
+};
 
-    const json = await response.json();
-    console.log(json);
-  } catch (error) {
-    console.error(error.message);
-  }
-}
+onMounted(() => {
+    checkLogin();
+});
 </script>
 
 <template>
-  <Header />
-  <Board />
+    <template v-if="user">
+        <Header />
+        <Board />
+    </template>
+
+    <Login v-else />
 </template>

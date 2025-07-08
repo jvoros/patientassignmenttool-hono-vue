@@ -2,12 +2,6 @@
 import { formatTime } from "./store.js";
 import TimelineReassignPopover from "./TimelineReassignPopover.vue";
 const { event } = defineProps(["event"]);
-
-const rooms = [
-    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
-    22, 23, 24, 25, 26, 27, 28, 29, 30,
-];
-const docs = ["Jeremy Voros", "Julius Ivring", "Doc Watson"];
 </script>
 
 <template>
@@ -17,7 +11,7 @@ const docs = ["Jeremy Voros", "Julius Ivring", "Doc Watson"];
             <TimelineReassignPopover
                 :name="event.assign"
                 heading="Reassign to"
-                :items="docs"
+                which="provider"
                 align="start"
             />
             <div class="message" v-if="event.super">
@@ -30,7 +24,7 @@ const docs = ["Jeremy Voros", "Julius Ivring", "Doc Watson"];
         <TimelineReassignPopover
             :name="event.room"
             heading="New Room"
-            :items="rooms"
+            which="room"
             align="center"
         />
     </div>

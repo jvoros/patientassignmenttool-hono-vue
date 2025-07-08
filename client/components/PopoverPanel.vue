@@ -11,7 +11,6 @@ import { inject } from "vue";
 const { align, side } = defineProps(["align", "side"]);
 const isOpen = inject("isOpen");
 const close = () => {
-    console.log("PopoverPanel close");
     isOpen.value = false;
 };
 </script>

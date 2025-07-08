@@ -1,7 +1,14 @@
 <script setup>
 import { LogOut } from "lucide-vue-next";
+
+import { post, setUser } from "./store.js";
 import HeaderAddClinician from "./HeaderAddClinician.vue";
 import DarkModeSwitch from "./DarkModeSwitch.vue";
+
+const logout = async () => {
+    const res = await post("/api/auth/logout");
+    if (res.status === "success") setUser(null);
+};
 </script>
 
 <template>
@@ -12,7 +19,9 @@ import DarkModeSwitch from "./DarkModeSwitch.vue";
         </div>
         <nav>
             <HeaderAddClinician />
-            <button class="btn-secondary">Logout <LogOut /></button>
+            <button class="btn-secondary" @click="logout">
+                Logout <LogOut />
+            </button>
             <DarkModeSwitch />
         </nav>
     </header>

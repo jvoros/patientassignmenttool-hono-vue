@@ -2,11 +2,15 @@ import { serve } from "@hono/node-server";
 import { serveStatic } from "@hono/node-server/serve-static";
 import { Hono } from "hono";
 
+import auth from "./auth.js";
+
 const app = new Hono();
 
 app.all("api/board", (c) => {
   return c.json({ data: "success" });
 });
+
+app.route("api/auth", auth);
 
 // VITE routes
 
@@ -25,5 +29,5 @@ serve(
   },
   (info) => {
     console.log(`Server is running on http://localhost:${info.port}`);
-  }
+  },
 );

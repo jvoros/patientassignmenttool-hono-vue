@@ -5,12 +5,19 @@ import Popover from "./Popover.vue";
 import PopoverTrigger from "./PopoverTrigger.vue";
 import PopoverPanel from "./PopoverPanel.vue";
 
-const { name, heading, items, align } = defineProps([
+const { name, heading, align, which } = defineProps([
     "name",
     "heading",
-    "items",
+    "which",
     "align",
 ]);
+
+const rooms = [
+    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
+    22, 23, 24, 25, 26, 27, 28, 29, 30,
+];
+const docs = ["Jeremy Voros", "Julius Ivring", "Doc Watson"];
+const items = which === "room" ? rooms : docs;
 
 const testError = () => {
     catchError(new Error("test error thrown."));
