@@ -1,6 +1,6 @@
 <script setup>
 import { TriangleAlert } from "lucide-vue-next";
-import { error, catchError } from "./store.js";
+import { error } from "./store.js";
 </script>
 
 <template>
