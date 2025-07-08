@@ -12,6 +12,7 @@
     --bg-next-menu: var(--color-amber-100);
     --border-color: var(--color-zinc-200);
     --color-secondary: var(--color-zinc-200);
+    --color-alert: var(--color-red-400);
 
     /* layout */
     --padding: 1rem 1rem;
