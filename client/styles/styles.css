@@ -24,6 +24,9 @@
 
     /* icons */
     --tl-icon-size: 1rem;
+
+    /* transition */
+    --transition: all 0.3s ease;
 }
 
 :root[class="dark"] {

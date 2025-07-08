@@ -1,14 +1,20 @@
 <script setup>
 import { ChevronDown } from "lucide-vue-next";
+import { catchError } from "./store.js";
 import Popover from "./Popover.vue";
 import PopoverTrigger from "./PopoverTrigger.vue";
 import PopoverPanel from "./PopoverPanel.vue";
+
 const { name, heading, items, align } = defineProps([
     "name",
     "heading",
     "items",
     "align",
 ]);
+
+const testError = () => {
+    catchError(new Error("test error thrown."));
+};
 </script>
 
 <template>
@@ -22,6 +28,7 @@ const { name, heading, items, align } = defineProps([
         <PopoverPanel :align="align">
             <div role="menu">
                 <div role="heading">{{ heading }}:</div>
+                <div role="menuitem" @click="testError">throw</div>
                 <div role="menuitem" v-for="item in items">{{ item }}</div>
             </div>
         </PopoverPanel>

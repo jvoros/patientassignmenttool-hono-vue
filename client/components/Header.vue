@@ -21,7 +21,6 @@ import DarkModeSwitch from "./DarkModeSwitch.vue";
 <style scoped>
 header {
     padding: 1rem;
-    margin-bottom: 2rem;
     display: flex;
     align-items: center;
     justify-content: space-between;

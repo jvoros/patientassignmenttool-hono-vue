@@ -23,7 +23,7 @@ const isOpen = inject("isOpen");
 .submenu.open {
     transform: translateX(0);
     opacity: 1;
-    transition: all 0.3s ease;
+    transition: var(--transition);
     visibility: visible;
 }
 </style>

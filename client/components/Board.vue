@@ -1,21 +1,25 @@
 <script setup>
 import { board } from "./store.js";
+import AlertBar from "./AlertBar.vue";
 import Timeline from "./Timeline.vue";
 import Zone from "./Zone.vue";
 </script>
 
 <template>
-    <main class="grid container">
-        <section class="grid-timeline">
-            <Timeline />
-        </section>
-        <section class="grid-main">
-            <Zone :slug="board.zoneOrder[0]" />
-        </section>
-        <section class="grid-other">
-            <Zone v-for="slug in board.zoneOrder.slice(1)" :slug="slug" />
-        </section>
-    </main>
+    <div class="container">
+        <AlertBar />
+        <main class="grid">
+            <section class="grid-timeline">
+                <Timeline />
+            </section>
+            <section class="grid-main">
+                <Zone :slug="board.zoneOrder[0]" />
+            </section>
+            <section class="grid-other">
+                <Zone v-for="slug in board.zoneOrder.slice(1)" :slug="slug" />
+            </section>
+        </main>
+    </div>
 </template>
 
 <style scoped>

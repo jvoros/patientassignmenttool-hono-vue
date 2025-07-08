@@ -1,5 +1,4 @@
 <script setup>
-import { ref } from "vue";
 import {
     Menu,
     CircleX,
@@ -21,7 +20,7 @@ const { shift, isPaused } = defineProps(["shift", "isPaused"]);
 </script>
 
 <template>
-    <Popover align="end" :menu="true" :resets="resets">
+    <Popover align="end" :menu="true">
         <PopoverTrigger>
             <button data-tooltip="Shift menu"><Menu size="14" /></button>
         </PopoverTrigger>
