@@ -8,13 +8,14 @@ const uid = () => Math.random().toString(32).substring(2, 8);
 const accessToken = process.env.ACCESS_TOKEN?.toString() ?? null;
 const jwtSecret = process.env.JWT_SECRET ?? null;
 
-export const verifyToken = async (token: string) => {
-  if (!jwtSecret) return { status: "noauth", message: "No secret" };
+export const verifyToken = async (token: string | undefined) => {
+  if (!token || !jwtSecret) return { status: "noauth", message: "No secret" };
   try {
     const payload = await verify(token, jwtSecret);
-    return true;
+    return { isAuth: true, payload };
   } catch {
-    return false;
+    console.log("[auth] verifyToken fail");
+    return { isAuth: false };
   }
 };
 
@@ -52,7 +53,8 @@ auth.post("/logout", async (c) => {
 auth.post("/checklogin", async (c) => {
   if (!jwtSecret) throw Error("No JWT_SECRET");
   const token = getCookie(c, "auth");
-  if (token && (await verifyToken(token))) {
+  const { isAuth, payload } = await verifyToken(token);
+  if (token && isAuth) {
     return c.json(token);
   }
   return c.json({ status: "noauth", message: "No token" });

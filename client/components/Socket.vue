@@ -3,18 +3,16 @@ import { onMounted, onUnmounted } from "vue";
 import io from "socket.io-client";
 import { token, socketConnected } from "./store.js";
 
-const socket = io({ auth: { token: token.value } }, () => {
-    console.log("socket.io connection cb");
-});
+const socket = io({ auth: { token: token.value } });
 
-socket.on("connect", (msg) => {
+socket.on("connect", () => {
     socketConnected.value = true;
     console.log("[socket] connected");
 });
 
 socket.on("disconnect", () => {
-    console.log("[socket] disconnected");
     socketConnected.value = false;
+    console.log("[socket] disconnected");
 });
 
 socket.on("message", (msg) => {

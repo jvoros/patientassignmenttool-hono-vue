@@ -14,7 +14,7 @@ export const honoServer = serve({
 console.log(`Server is running on http://localhost:${port}`);
 
 // websocket
-const socket = useSocket(honoServer);
+const io = useSocket(honoServer);
 
 // routes
 app.all("api/board", (c) => {
