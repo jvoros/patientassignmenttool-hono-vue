@@ -22,11 +22,12 @@ const logout = async () => {
             <div class="socket-status" v-if="!socketConnected">
                 Error: no socket connection.
             </div>
-            <wa-button variant="danger">Web Awesome</wa-button>
+
             <HeaderAddClinician />
-            <button class="btn-secondary" @click="logout">
-                Logout <LogOut />
-            </button>
+            <wa-button appearance="filled" size="small" @click="logout">
+                <wa-icon name="right-from-bracket" slot="end"></wa-icon>
+                Logout
+            </wa-button>
             <DarkModeSwitch />
         </nav>
     </header>

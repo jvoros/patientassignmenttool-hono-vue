@@ -1,7 +1,11 @@
 @import "./basecoat.css";
+@import "node_modules/@awesome.me/webawesome/dist/styles/webawesome.css";
 @import "./theme.css";
 
 :root {
+    /* webawesome customize */
+    --wa-space-scale: 0.2;
+
     /* colors */
     --bg-color: var(--color-zinc-50);
     --text-color: var(--color-zinc-900);
