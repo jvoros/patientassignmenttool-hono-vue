@@ -1,14 +1,14 @@
 <script setup>
 import { ref } from "vue";
-import { post, error, setUser } from "./store.js";
+import { post, error, setToken } from "./store.js";
 
 const code = ref(null);
 const login = async (event) => {
     event.preventDefault();
     const payload = { site: "smh", code: code.value };
     const res = await post("/api/auth/login", payload);
-    if (res.role) {
-        setUser(res.id);
+    if (res) {
+        setToken(res);
     }
 };
 </script>

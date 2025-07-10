@@ -8,12 +8,22 @@ const uid = () => Math.random().toString(32).substring(2, 8);
 const accessToken = process.env.ACCESS_TOKEN?.toString() ?? null;
 const jwtSecret = process.env.JWT_SECRET ?? null;
 
+export const verifyToken = async (token: string) => {
+  if (!jwtSecret) return { status: "noauth", message: "No secret" };
+  try {
+    const payload = await verify(token, jwtSecret);
+    return true;
+  } catch {
+    return false;
+  }
+};
+
+// routes
 auth.post("/login", async (c) => {
   if (!accessToken || !jwtSecret) {
     throw Error("Missing ACCESS_TOKEN or JWT_SECRET");
   }
 
-  const payload = await c.req.json();
   const { site, code } = await c.req.json();
   if (code && code.toString() === accessToken) {
     const payload = {
@@ -28,7 +38,7 @@ auth.post("/login", async (c) => {
       sameSite: "Strict",
       expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
     });
-    return c.json(payload);
+    return c.json(token);
   } else {
     return c.json({ message: "Invalid access code" }, 401);
   }
@@ -42,18 +52,10 @@ auth.post("/logout", async (c) => {
 auth.post("/checklogin", async (c) => {
   if (!jwtSecret) throw Error("No JWT_SECRET");
   const token = getCookie(c, "auth");
-  if (token) {
-    try {
-      const payload = await verify(token, jwtSecret);
-      return c.json(payload);
-    } catch {
-      return c.json({ status: "noauth", message: "Invalid token" });
-    }
+  if (token && (await verifyToken(token))) {
+    return c.json(token);
   }
-  if (!token) {
-    return c.json({ status: "noauth", message: "No token" });
-  }
-  return;
+  return c.json({ status: "noauth", message: "No token" });
 });
 
 export default auth;

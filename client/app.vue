@@ -1,7 +1,8 @@
 <script setup>
 import { onMounted } from "vue";
-import { user, setUser, post } from "./components/store.js";
+import { token, setToken, post } from "./components/store.js";
 
+import Socket from "./components/Socket.vue";
 import Header from "./components/Header.vue";
 import Board from "./components/Board.vue";
 import Login from "./components/Login.vue";
@@ -9,9 +10,9 @@ import Login from "./components/Login.vue";
 const checkLogin = async () => {
     const res = await post("/api/auth/checklogin");
     if (res.status === "noauth") {
-        setUser(null);
+        setToken(null);
     } else {
-        setUser(res.id);
+        setToken(res);
     }
 };
 
@@ -21,9 +22,9 @@ onMounted(() => {
 </script>
 
 <template>
-    <template v-if="user">
+    <Login v-if="!token" />
+    <Socket v-else>
         <Header />
         <Board />
-    </template>
-    <Login v-else />
+    </Socket>
 </template>

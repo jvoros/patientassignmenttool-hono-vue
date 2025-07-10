@@ -1,13 +1,13 @@
 <script setup>
 import { LogOut } from "lucide-vue-next";
 
-import { post, setUser } from "./store.js";
+import { post, setToken, socketConnected } from "./store.js";
 import HeaderAddClinician from "./HeaderAddClinician.vue";
 import DarkModeSwitch from "./DarkModeSwitch.vue";
 
 const logout = async () => {
     const res = await post("/api/auth/logout");
-    if (res.status === "success") setUser(null);
+    if (res.status === "success") setToken(null);
 };
 </script>
 
@@ -18,6 +18,9 @@ const logout = async () => {
             <h1>Patient Assignment Tool <span>v 1.0</span></h1>
         </div>
         <nav>
+            <div class="socket-status" v-if="!socketConnected">
+                Error: no socket connection.
+            </div>
             <HeaderAddClinician />
             <button class="btn-secondary" @click="logout">
                 Logout <LogOut />
@@ -60,5 +63,11 @@ nav {
     display: flex;
     align-items: center;
     gap: 1rem;
+}
+
+.socket-status {
+    font-family: var(--font-mono);
+    color: var(--text-muted);
+    font-size: 0.8rem;
 }
 </style>

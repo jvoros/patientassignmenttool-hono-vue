@@ -2,6 +2,7 @@ import { ref } from "vue";
 import mockBoard from "../mockBoard.js";
 
 export const board = ref(mockBoard);
+export const socketConnected = ref(false);
 
 export const error = ref(null);
 export const catchError = (err) => {
@@ -13,9 +14,9 @@ export const catchError = (err) => {
   return false;
 };
 
-export const user = ref(null);
-export const setUser = (newUser) => {
-  user.value = newUser;
+export const token = ref(null);
+export const setToken = (newToken) => {
+  token.value = newToken;
 };
 
 export const formatTime = (epoch) => {
