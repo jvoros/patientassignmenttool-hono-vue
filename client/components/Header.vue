@@ -1,5 +1,6 @@
 <script setup>
 import { LogOut } from "lucide-vue-next";
+import "@awesome.me/webawesome/dist/components/button/button.js";
 
 import { post, setToken, socketConnected } from "./store.js";
 import HeaderAddClinician from "./HeaderAddClinician.vue";
@@ -21,6 +22,7 @@ const logout = async () => {
             <div class="socket-status" v-if="!socketConnected">
                 Error: no socket connection.
             </div>
+            <wa-button variant="danger">Web Awesome</wa-button>
             <HeaderAddClinician />
             <button class="btn-secondary" @click="logout">
                 Logout <LogOut />
