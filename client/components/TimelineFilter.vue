@@ -1,8 +1,5 @@
 <script setup>
 import { ListFilter } from "lucide-vue-next";
-import Popover from "./Popover.vue";
-import PopoverTrigger from "./PopoverTrigger.vue";
-import PopoverPanel from "./PopoverPanel.vue";
 
 const { providers, setFilter } = defineProps([
     "providers",
@@ -10,47 +7,30 @@ const { providers, setFilter } = defineProps([
     "filteredName",
 ]);
 
-const handleClick = (item, close) => {
+const handleClick = (item) => {
     setFilter(item);
-    close();
 };
 </script>
 
 <template>
-    <Popover align="end" :menu="true" :isOpen="false">
-        <PopoverTrigger>
-            <button class="filter-button" data-tooltip="Filter by clinician">
-                <span v-if="filteredName !== ''">
-                    FILTERED: {{ filteredName }}
-                </span>
-                <span v-else> FILTER </span>
-                <ListFilter size="14" />
-            </button>
-        </PopoverTrigger>
-        <PopoverPanel align="end" v-slot="{ close }">
-            <div role="menu">
-                <div role="heading">Show Only:</div>
-                <template v-for="item in providers">
-                    <div role="menuitem" @click="handleClick(item, close)">
-                        {{ item }}
-                    </div>
-                </template>
-                <hr role="separator" />
-                <div role="menuitem" @click="handleClick('', close)">
-                    Show All Events
-                </div>
-            </div>
-        </PopoverPanel>
-    </Popover>
-</template>
+    <wa-dropdown placement="bottom-end" distance="10">
+        <button slot="trigger" class="unbutton">
+            <span v-if="filteredName !== ''"> {{ filteredName }} </span>
+            <span v-else> FILTER </span>
+            <ListFilter size="14" slot="end" />
+        </button>
 
-<style scoped>
-.filter-button {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.8rem;
-    color: var(--text-muted);
-    cursor: pointer;
-}
-</style>
+        <template v-if="!filteredName">
+            <h4>Show only:</h4>
+            <wa-dropdown-item
+                @click="handleClick(item)"
+                v-for="item in providers"
+            >
+                {{ item }}
+            </wa-dropdown-item>
+        </template>
+        <wa-dropdown-item @click="handleClick('')" v-else>
+            <wa-icon name="xmark" slot="icon"></wa-icon> Clear Filter
+        </wa-dropdown-item>
+    </wa-dropdown>
+</template>

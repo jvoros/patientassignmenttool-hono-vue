@@ -36,7 +36,7 @@ const isPaused = shift.value.status === "paused" && isRot;
                 <div class="badge skip-badge" v-if="isSkipped">SKIP</div>
                 <div class="badge pause-badge" v-if="isPaused">PAUSED</div>
                 <div class="badge super-badge" v-if="isSuper">SUPER</div>
-                <ShiftAssignPopover v-if="isNext" />
+                <ShiftAssignPopover :id="shift.id" v-if="isNext" />
             </div>
         </div>
     </div>
@@ -128,6 +128,9 @@ const isPaused = shift.value.status === "paused" && isRot;
 .badge {
     font-weight: 700;
     font-size: 0.7em;
+    padding: 0.25rem 0.5rem;
+    border-radius: var(--radius);
+    color: white;
 }
 
 .super-badge {

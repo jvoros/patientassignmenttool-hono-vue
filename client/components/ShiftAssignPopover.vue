@@ -1,25 +1,28 @@
 <script setup>
 import { ref, computed } from "vue";
-import { ChevronDown } from "lucide-vue-next";
 import IconMode from "./IconMode.vue";
-import Popover from "./Popover.vue";
-import PopoverTrigger from "./PopoverTrigger.vue";
-import PopoverPanel from "./PopoverPanel.vue";
+
+const { id } = defineProps(["id"]);
 
 const selectedMode = ref("");
 const selectedRoom = ref("");
 const resets = [selectedMode, selectedRoom];
 const isComplete = computed(() => resets.every((el) => el.value !== ""));
+const onHide = () => {
+    resets.forEach((r) => {
+        r.value = "";
+    });
+};
 
 const setMode = (mode) => {
     selectedMode.value = mode;
 };
 
 const modes = [
-    { tool: "Walk In", slug: "walkin" },
-    { tool: "Fast Track", slug: "ft" },
-    { tool: "Ambo", slug: "ambo" },
-    { tool: "Police", slug: "police" },
+    { tool: "Walk In", slug: "walkin", icon: "user-plus" },
+    { tool: "Fast Track", slug: "ft", icon: "bolt" },
+    { tool: "Ambo", slug: "ambo", icon: "truck-medical" },
+    { tool: "Police", slug: "police", icon: "shield-halved" },
 ];
 
 const rooms = [
@@ -29,62 +32,47 @@ const rooms = [
 </script>
 
 <template>
-    <Popover align="center" :resets="resets">
-        <PopoverTrigger>
-            <button class="btn" popover-target="assign-popover">
-                Assign <ChevronDown />
-            </button>
-        </PopoverTrigger>
-        <PopoverPanel align="center">
-            <div class="assign-popover">
-                <div class="modes">
-                    <button
-                        v-for="mode in modes"
-                        class="btn-sm-icon-outline"
-                        :data-tooltip="mode.tool"
-                        @click="setMode(mode.slug)"
-                        :disabled="selectedMode === mode.slug"
-                    >
-                        <IconMode :mode="mode.slug" />
-                    </button>
-                </div>
-
-                <div>
-                    <select class="select" v-model="selectedRoom">
-                        <option disabled value="">Room:</option>
-                        <option v-for="room in rooms" :value="room">
-                            {{ room }}
-                        </option>
-                    </select>
-                </div>
-
-                <button class="btn submit" :disabled="!isComplete">
-                    Assign
-                </button>
-            </div>
-        </PopoverPanel>
-    </Popover>
+    <wa-button :id="'popover__assignPatient_' + id" size="small" with-caret>
+        <wa-icon name="user-plus" slot="start"></wa-icon>
+        Assign
+    </wa-button>
+    <wa-popover
+        :for="'popover__assignPatient_' + id"
+        placement="bottom"
+        style="--arrow-size: 0; --max-width: 15rem"
+        @wa-after-hide.self="onHide"
+    >
+        <div>
+            <wa-button-group size="small">
+                <wa-button
+                    v-for="mode in modes"
+                    :appearance="
+                        mode.slug === selectedMode ? 'outline' : 'filled'
+                    "
+                    @click="setMode(mode.slug)"
+                >
+                    <IconMode :mode="mode.slug" />
+                </wa-button>
+            </wa-button-group>
+            <wa-select placeholder="Room" v-model="selectedRoom">
+                <template v-for="room in rooms">
+                    <wa-option :value="room.toString()">
+                        {{ room }}
+                    </wa-option>
+                </template>
+            </wa-select>
+            <wa-button size="small" style="width: 100%" :disabled="!isComplete">
+                Add to Board
+            </wa-button>
+        </div>
+    </wa-popover>
 </template>
 
 <style scoped>
-.assign-popover {
+div {
     display: flex;
     flex-direction: column;
+    gap: 1rem;
     align-items: center;
-    gap: 0.5rem;
-    overflow: visible;
-}
-
-.modes {
-    display: flex;
-    gap: 0.5rem;
-}
-
-select {
-    width: 10rem;
-}
-
-.submit {
-    width: 100%;
 }
 </style>

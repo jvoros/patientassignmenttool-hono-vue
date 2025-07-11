@@ -1,10 +1,10 @@
-@import "./basecoat.css";
 @import "node_modules/@awesome.me/webawesome/dist/styles/webawesome.css";
+@import "node_modules/@awesome.me/webawesome/dist/styles/themes/default.css";
 @import "./theme.css";
 
 :root {
     /* webawesome customize */
-    --wa-space-scale: 0.2;
+    --wa-space-scale: 0.6;
 
     /* colors */
     --bg-color: var(--color-zinc-50);
@@ -34,7 +34,7 @@
     --transition: all 0.3s ease;
 }
 
-:root[class="dark"] {
+:root[class*="wa-dark"] {
     --bg-color: var(--color-zinc-900);
     --text-color: var(--color-zinc-200);
     --bg-muted: var(--color-zinc-700);
@@ -62,19 +62,11 @@ body {
     padding: 1rem;
 }
 
-/* use with <Transition name="fade" /> */
-.fade-enter-active,
-.fade-leave-active {
-    transition: opacity 0.5s ease;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-    opacity: 0;
-}
-
-/* Basecoat Overrides */
-[data-tooltip]:before {
-    background-color: var(--color-secondary);
-    color: var(--text-color);
+.unbutton {
+    --size: 0.9rem;
+    background-color: transparent;
+    padding: 0;
+    height: var(--size);
+    color: var(--text-muted);
+    font-size: var(--size);
 }

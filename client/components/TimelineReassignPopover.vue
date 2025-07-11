@@ -25,40 +25,32 @@ const testError = () => {
 </script>
 
 <template>
-    <Popover :menu="true" class="reassign-popover">
-        <PopoverTrigger>
-            <div class="select">
-                <h4>{{ name }}</h4>
-                <ChevronDown class="reassign-chevron" size="14" />
-            </div>
-        </PopoverTrigger>
-        <PopoverPanel :align="align">
-            <div role="menu">
-                <div role="heading">{{ heading }}:</div>
-                <div role="menuitem" @click="testError">throw</div>
-                <div role="menuitem" v-for="item in items">{{ item }}</div>
-            </div>
-        </PopoverPanel>
-    </Popover>
+    <wa-dropdown distance="10" class="reassign-popover">
+        <button class="unbutton" slot="trigger">
+            <span class="name">{{ name }}</span>
+            <wa-icon name="angle-down" class="reassign-chevron"></wa-icon>
+        </button>
+        <h4>{{ heading }}</h4>
+        <wa-scroller orientation="vertical" style="max-height: 300px">
+            <wa-dropdown-item v-for="item in items">
+                {{ item }}
+            </wa-dropdown-item>
+        </wa-scroller>
+    </wa-dropdown>
 </template>
 
 <style scoped>
-h4 {
+.name {
     font-weight: 700;
     font-size: 1.25rem;
+    color: var(--text-color);
 }
 
-.select {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-svg {
+.reassign-chevron {
     visibility: hidden;
 }
 
-.reassign-popover:hover svg {
+.reassign-popover:hover .reassign-chevron {
     visibility: visible;
 }
 

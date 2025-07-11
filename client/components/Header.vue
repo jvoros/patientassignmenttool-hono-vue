@@ -1,6 +1,7 @@
 <script setup>
 import { LogOut } from "lucide-vue-next";
-import "@awesome.me/webawesome/dist/components/button/button.js";
+import "@awesome.me/webawesome/dist/components/popover/popover.js";
+import "@awesome.me/webawesome/dist/components/select/select.js";
 
 import { post, setToken, socketConnected } from "./store.js";
 import HeaderAddClinician from "./HeaderAddClinician.vue";
@@ -24,8 +25,12 @@ const logout = async () => {
             </div>
 
             <HeaderAddClinician />
-            <wa-button appearance="filled" size="small" @click="logout">
-                <wa-icon name="right-from-bracket" slot="end"></wa-icon>
+            <wa-button
+                appearance="filled outlined"
+                size="small"
+                @click="logout"
+            >
+                <LogOut size="16" slot="end" />
                 Logout
             </wa-button>
             <DarkModeSwitch />
@@ -72,5 +77,11 @@ nav {
     font-family: var(--font-mono);
     color: var(--text-muted);
     font-size: 0.8rem;
+}
+
+.popover {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
 }
 </style>

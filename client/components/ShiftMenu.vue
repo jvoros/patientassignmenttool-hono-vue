@@ -1,26 +1,56 @@
 <script setup>
-import {
-    Menu,
-    CircleX,
-    Smile,
-    UserPlus,
-    CirclePause,
-    CirclePlay,
-    ArrowLeftRight,
-    ArrowLeft,
-    Plus,
-} from "lucide-vue-next";
-import Popover from "./Popover.vue";
-import PopoverTrigger from "./PopoverTrigger.vue";
-import PopoverPanel from "./PopoverPanel.vue";
-import Submenu from "./Submenu.vue";
-import SubmenuPanel from "./SubmenuPanel.vue";
+import { Menu } from "lucide-vue-next";
 
 const { shift, isPaused } = defineProps(["shift", "isPaused"]);
 </script>
 
 <template>
-    <Popover align="end" :menu="true">
+    <wa-dropdown distance="10" placement="bottom">
+        <button class="unbutton" slot="trigger">
+            <Menu size="14" />
+        </button>
+        <h4>Shift Menu</h4>
+        <wa-dropdown-item>
+            <wa-icon name="user-plus" slot="icon"></wa-icon>
+            Assign Patient
+        </wa-dropdown-item>
+        <wa-divider></wa-divider>
+        <wa-dropdown-item v-if="!isPaused">
+            <wa-icon name="circle-pause" slot="icon"></wa-icon>
+            Pause Shift
+        </wa-dropdown-item>
+        <wa-dropdown-item v-if="isPaused">
+            <wa-icon name="circle-play" slot="icon"></wa-icon>
+            Unpause Shift
+        </wa-dropdown-item>
+        <wa-divider></wa-divider>
+        <wa-dropdown-item>
+            <wa-icon name="arrow-right-arrow-left" slot="icon"></wa-icon>
+            Move to Zone
+            <wa-dropdown-item slot="submenu">Fast Track</wa-dropdown-item>
+            <wa-dropdown-item slot="submenu">Trauma</wa-dropdown-item>
+        </wa-dropdown-item>
+        <wa-dropdown-item>
+            <wa-icon name="plus" slot="icon"></wa-icon>
+            Add to Zone
+            <wa-dropdown-item slot="submenu">Fast Track</wa-dropdown-item>
+            <wa-dropdown-item slot="submenu">Trauma</wa-dropdown-item>
+        </wa-dropdown-item>
+        <wa-dropdown-item>
+            <wa-icon name="arrow-left" slot="icon"></wa-icon>
+            Leave this Zone
+        </wa-dropdown-item>
+        <wa-divider></wa-divider>
+        <wa-dropdown-item variant="danger">
+            <wa-icon name="trash" slot="icon"></wa-icon>
+            Delete Shift
+        </wa-dropdown-item>
+        <wa-dropdown-item>
+            <wa-icon name="smile" slot="icon"></wa-icon>
+            Sign Out
+        </wa-dropdown-item>
+    </wa-dropdown>
+    <!-- <Popover align="end" :menu="true">
         <PopoverTrigger>
             <button data-tooltip="Shift menu"><Menu size="14" /></button>
         </PopoverTrigger>
@@ -58,7 +88,7 @@ const { shift, isPaused } = defineProps(["shift", "isPaused"]);
                 <div role="menuitem"><Smile />Sign Out</div>
             </div>
         </PopoverPanel>
-    </Popover>
+    </Popover> -->
 </template>
 
 <style scoped>

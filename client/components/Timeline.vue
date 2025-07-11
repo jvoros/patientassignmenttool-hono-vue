@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from "vue";
+
 import { Undo2 } from "lucide-vue-next";
 import { board } from "./store.js";
 import ZoneHeader from "./ZoneHeader.vue";
@@ -32,9 +33,14 @@ const docs = ["Jeremy Voros", "Julius Ivring", "Doc Watson", "Brian Kasvana"];
         <template v-for="(event, index) in timeline">
             <TimelineNode :event="event" :filter="filterClinician" />
             <div class="undo" v-if="index === 0">
-                <button class="btn-sm-icon-outline" data-tooltip="Undo">
-                    <Undo2 />
-                </button>
+                <wa-button
+                    id="tl-undo"
+                    appearance="outlined filled"
+                    size="small"
+                >
+                    <wa-icon name="undo"></wa-icon>
+                </wa-button>
+                <wa-tooltip for="tl-undo">Undo</wa-tooltip>
             </div>
         </template>
     </section>
