@@ -1,4 +1,7 @@
 <script setup>
+import IconMoon from "./IconMoon.vue";
+import IconSun from "./IconSun.vue";
+
 const toggleTheme = () => {
     const classes = document.documentElement.classList;
     const isDark = classes.contains("wa-dark");
@@ -11,12 +14,19 @@ const toggleTheme = () => {
 </script>
 <template>
     <wa-button size="small" appearance="filled" @click="toggleTheme">
-        <wa-icon name="sun" variant="regular" class="sun"></wa-icon>
-        <wa-icon name="moon" class="moon"></wa-icon>
+        <span>
+            <IconMoon class="moon" />
+            <IconSun class="sun" />
+        </span>
     </wa-button>
 </template>
 
 <style scoped>
+span {
+    width: 1.1rem;
+    height: 1.1rem;
+}
+
 .sun,
 .wa-dark .moon {
     display: none;
