@@ -1,10 +1,5 @@
-import { createClient } from "@libsql/client";
+import { turso } from "./client.js";
 import sites from "../sites/index.js";
-
-const turso = createClient({
-  url: process.env.TURSO_DATABASE_URL!,
-  authToken: process.env.TURSO_AUTH_TOKEN,
-});
 
 const sql = `
   INSERT INTO sites (slug, config)

@@ -1,10 +1,3 @@
-// contains the base configuration for the site
-// this is the data used to populate the database
-// dbase just stores json
-// update here, then update dbase record
-// could write script to push changes here to database, poor man's migrations
-// need to store in dbase so we can make updates to site without relaunching app
-
 const config: SiteConfig = {
   name: "St. Mark's Hospital",
 
