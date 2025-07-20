@@ -8,6 +8,6 @@
     "types": ["node"],
     "outDir": "./dist"
   },
-  "include": ["core", "server", "tests"],
+  "include": ["core", "server", "sites", "tests"],
   "exclude": ["node_modules"]
 }

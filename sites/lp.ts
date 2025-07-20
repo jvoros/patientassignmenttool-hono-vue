@@ -1,14 +1,7 @@
-// contains the base configuration for the site
-// this is the data used to populate the database
-// dbase just stores json
-// update here, then update dbase record
-// could write script to push changes here to database, poor man's migrations
-// need to store in dbase so we can make updates to site without relaunching app
+const config: SiteConfig = {
+  name: "Lone Peak Hospital",
 
-export default {
-  name: "St. Mark's Hospital",
-
-  slug: "smh",
+  slug: "lp",
 
   zones: {
     main: {
@@ -18,13 +11,7 @@ export default {
       superZone: "main",
       triggerSkip: false,
     },
-    ft: {
-      slug: "ft",
-      name: "Fast Track",
-      type: "simple",
-      superZone: "main",
-      triggerSkip: true,
-    },
+
     off: {
       slug: "off",
       name: "Off Rotation",
@@ -33,7 +20,7 @@ export default {
     },
   },
 
-  zoneOrder: ["main", "ft", "off"],
+  zoneOrder: ["main", "off"],
 
   schedule: [
     { name: "6 am - 3 pm", bonus: 2, joins: "main" },
@@ -97,51 +84,7 @@ export default {
     { last: "APP - Not Listed", first: "", role: "app" },
   ],
 
-  rooms: [
-    "1",
-    "2",
-    "3",
-    "4",
-    "5",
-    "6",
-    "7",
-    "8",
-    "9",
-    "10",
-    "11",
-    "12",
-    "13",
-    "14",
-    "15",
-    "16",
-    "17",
-    "18",
-    "19",
-    "20",
-    "21",
-    "22",
-    "23",
-    "24",
-    "25",
-    "27",
-    "28",
-    "29",
-    "30",
-    "101",
-    "102",
-    "103",
-    "104",
-    "105",
-    "106",
-    "107",
-    "108",
-    "109",
-    "110",
-    "Hall A",
-    "Hall B",
-    "Hall C",
-    "Hall D",
-    "Hall E",
-    "Hall F",
-  ],
+  rooms: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
 };
+
+export default config;
