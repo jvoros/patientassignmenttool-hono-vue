@@ -20,7 +20,7 @@ socket.on("message", (msg) => {
 });
 
 socket.on("board", (value) => {
-    console.log(`[socket] (board) new board`);
+    console.log(`[socket] (board) new board:`, value);
     // site.updateBoard(value);
 });
 

@@ -9,9 +9,9 @@
 -- 'board' is the active board updated with every action
 
 CREATE TABLE sites (
-    slug TEXT PRIMARY KEY,                   -- Slug as the primary key
-    config TEXT NOT NULL,                    -- JSON: config data
-    board TEXT,                              -- JSON: the active board
+    slug TEXT PRIMARY KEY,      -- Slug as the primary key
+    site TEXT NOT NULL,         -- JSON: config data
+    board TEXT,                 -- JSON: the active board
 );
 
 CREATE TABLE logs (

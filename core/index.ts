@@ -1,4 +1,9 @@
-import { produce, produceWithPatches, enablePatches, applyPatches } from "immer";
+import {
+  produce,
+  produceWithPatches,
+  enablePatches,
+  applyPatches,
+} from "immer";
 import Board from "./board.js";
 import Assign from "./assign.js";
 enablePatches();
@@ -16,9 +21,12 @@ const withUndo = <T>(fn: BoardFn<T>) => {
     let error: unknown;
     let returnBoard = board;
     try {
-      const [newBoard, _patches, inversePatches] = produceWithPatches(board, (draftBoard) => {
-        fn(draftBoard, params);
-      });
+      const [newBoard, _patches, inversePatches] = produceWithPatches(
+        board,
+        (draftBoard) => {
+          fn(draftBoard, params);
+        },
+      );
       // return from immer is immutable
       // use produce() to modify
       const newBoardWithPatches = produce(newBoard, (draft) => {
@@ -67,4 +75,4 @@ export default {
   assignToZone: withUndo(Assign.toZone),
   reassign: withUndo(Assign.reassign),
   changeRoom: withUndo(Assign.changeRoom),
-};
+} as Record<string, Function>;

@@ -1,7 +1,11 @@
 import { ref } from "vue";
 import mockBoard from "../mockBoard.js";
 
-export const board = ref(mockBoard);
+export const board = ref();
+export const updateBoard = (newBoard) => {
+  board.value = newBoard;
+};
+
 export const socketConnected = ref(false);
 
 export const error = ref(null);

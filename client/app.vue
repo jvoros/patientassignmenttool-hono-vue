@@ -1,6 +1,12 @@
 <script setup>
 import { onMounted } from "vue";
-import { token, setToken, post } from "./components/store.js";
+import {
+    token,
+    setToken,
+    post,
+    board,
+    updateBoard,
+} from "./components/store.js";
 
 import Socket from "./components/Socket.vue";
 import Header from "./components/Header.vue";
@@ -16,8 +22,12 @@ const checkLogin = async () => {
     }
 };
 
-onMounted(() => {
+onMounted(async () => {
     checkLogin();
+    if (token) {
+        const { data } = await post("/api/core/board");
+        updateBoard(JSON.parse(data.board));
+    }
 });
 </script>
 
@@ -25,6 +35,6 @@ onMounted(() => {
     <Login v-if="!token" />
     <Socket v-else>
         <Header />
-        <Board />
+        <Board v-if="board" />
     </Socket>
 </template>

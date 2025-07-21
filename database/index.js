@@ -1,0 +1,38 @@
+import { turso } from "./client.js";
+
+const query = async (sql, args) => {
+  try {
+    const data = await turso.execute({ sql, args });
+    return { data: data.rows[0], error: false };
+  } catch (err) {
+    return { data: false, error: err };
+  }
+};
+
+const getBoardSql = `
+  SELECT board
+  FROM sites
+  WHERE slug = :slug
+  `;
+
+const updateBoardSql = `
+  UPDATE sites
+  SET board = :newBoard
+  WHERE slug = :slug
+  `;
+
+const getSiteSql = `
+  SELECT site
+  FROM sites
+  WHERE slug = :slug
+  `;
+
+export default {
+  getBoard: async (slug) => await query(getBoardSql, { slug }),
+
+  updateBoard: async (slug, newBoard) => {
+    return query(updateBoardSql, { slug, newBoard: JSON.stringify(newBoard) });
+  },
+
+  getSite: async (slug) => await query(getSiteSql, { slug }),
+};
