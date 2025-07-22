@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, onUnmounted } from "vue";
 import io from "socket.io-client";
-import { token, socketConnected } from "./store.js";
+import { token, socketConnected, updateBoard } from "./store.js";
 
 const socket = io({ auth: { token: token.value } });
 
@@ -21,7 +21,7 @@ socket.on("message", (msg) => {
 
 socket.on("board", (value) => {
     console.log(`[socket] (board) new board:`, value);
-    // site.updateBoard(value);
+    updateBoard(value);
 });
 
 onMounted(() => {

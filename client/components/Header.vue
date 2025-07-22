@@ -3,14 +3,9 @@ import { LogOut } from "lucide-vue-next";
 import "@awesome.me/webawesome/dist/components/popover/popover.js";
 import "@awesome.me/webawesome/dist/components/select/select.js";
 
-import { post, setToken, socketConnected } from "./store.js";
+import { site, logout, socketConnected } from "./store.js";
 import HeaderAddClinician from "./HeaderAddClinician.vue";
 import DarkModeSwitch from "./DarkModeSwitch.vue";
-
-const logout = async () => {
-    const res = await post("/api/auth/logout");
-    if (res.status === "success") setToken(null);
-};
 </script>
 
 <template>
@@ -24,7 +19,7 @@ const logout = async () => {
                 Error: no socket connection.
             </div>
 
-            <HeaderAddClinician />
+            <HeaderAddClinician v-if="site" />
             <wa-button
                 appearance="filled outlined"
                 size="small"

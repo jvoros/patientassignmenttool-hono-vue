@@ -1,5 +1,5 @@
 <script setup>
-import { formatTime } from "./store.js";
+import { formatTime, board } from "./store.js";
 import TimelineReassignPopover from "./TimelineReassignPopover.vue";
 const { event } = defineProps(["event"]);
 </script>
@@ -9,20 +9,24 @@ const { event } = defineProps(["event"]);
         <div>
             <div class="time">{{ formatTime(event.time) }}</div>
             <TimelineReassignPopover
-                :name="event.assign"
+                :value="event.assign"
+                :eventId="event.id"
                 heading="Reassign to"
                 which="provider"
                 align="start"
             />
             <div class="message" v-if="event.super">
-                Supervisor: {{ event.super }}
+                Supervisor:
+                {{ board.shifts[event.super].first }}
+                {{ board.shifts[event.super].last }}
             </div>
             <div class="message" v-if="event.message">{{ event.message }}</div>
             <div class="message" v-if="event.note">{{ event.note }}</div>
         </div>
 
         <TimelineReassignPopover
-            :name="event.room"
+            :value="event.room"
+            :eventId="event.id"
             heading="New Room"
             which="room"
             align="center"

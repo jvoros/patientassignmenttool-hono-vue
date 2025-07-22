@@ -1,15 +1,12 @@
 <script setup>
 import { ref } from "vue";
-import { post, error, setToken } from "./store.js";
+import { login } from "./store.js";
 
 const code = ref(null);
-const login = async (event) => {
+const loginEvent = async (event) => {
     event.preventDefault();
     const payload = { site: "smh", code: code.value };
-    const res = await post("/api/auth/login", payload);
-    if (res) {
-        setToken(res);
-    }
+    login(payload);
 };
 </script>
 
@@ -20,7 +17,7 @@ const login = async (event) => {
         <div v-if="error">{{ error }}</div>
         <form>
             <label>Access Code<input type="text" v-model="code" /></label>
-            <button class="btn" type="submit" @click="login">Login</button>
+            <button class="btn" type="submit" @click="loginEvent">Login</button>
         </form>
     </main>
 </template>

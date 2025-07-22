@@ -1,43 +1,23 @@
 <script setup>
+import { computed } from "vue";
 import TimelineIcon from "./TimelineIcon.vue";
 import TimelineInfo from "./TimelineInfo.vue";
 import TimelineAssign from "./TimelineAssign.vue";
-import { board, formatTime } from "./store.js";
+import { formatTime } from "./store.js";
 
 const { event, filter } = defineProps(["event", "filter"]);
 
-const mode = event.assign ? event.mode : "info";
-const getNames = () => {
-    let assign = "";
-    let sup = "";
-    if (event.assign) {
-        const shift = board.value.shifts[event.assign];
-        assign = `${shift.first} ${shift.last}`;
-    }
-    if (event.super) {
-        const shift = board.value.shifts[event.super];
-        sup = `${shift.first} ${shift.last}`;
-    }
-    return { assign, sup };
-};
-const { assign, sup } = getNames();
-const expandedEvent = {
-    ...event,
-    assign,
-    super: sup,
-};
+const mode = computed(() => (event.assign ? event.mode : "info"));
 
-const shouldShow = () => filter === "" || filter === assign || filter === sup;
+const shouldShow = computed(
+    () => filter === "" || filter === event?.assign || filter === event?.super,
+);
 </script>
 <template>
-    <div class="tl-node" v-if="shouldShow()">
+    <div class="tl-node" v-if="shouldShow">
         <TimelineIcon :mode="mode" />
         <div class="tl-event">
-            <TimelineAssign
-                :event="expandedEvent"
-                :filter="filter"
-                v-if="assign"
-            />
+            <TimelineAssign :event="event" v-if="event.assign" />
             <TimelineInfo
                 :time="formatTime(event.time)"
                 :message="event.message"

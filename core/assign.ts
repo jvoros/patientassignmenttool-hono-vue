@@ -9,7 +9,8 @@ const ROLES_TRIGGERING_SKIP = ["app"];
 const supervisorRequired = (shift: Shift): boolean =>
   ROLES_REQUIRING_SUPERVISOR.includes(shift.role);
 
-const providerTriggersSkip = (shift: Shift): boolean => ROLES_TRIGGERING_SKIP.includes(shift.role);
+const providerTriggersSkip = (shift: Shift): boolean =>
+  ROLES_TRIGGERING_SKIP.includes(shift.role);
 
 // ASSIGN
 const assign = (
@@ -19,7 +20,7 @@ const assign = (
     zoneSlug: Zone["slug"];
     mode: PatientModes;
     room: string;
-  }
+  },
 ): void => {
   const { shiftId, zoneSlug, mode, room } = params;
   const shift = Board.getShift(shiftId, board);
@@ -37,7 +38,11 @@ const assign = (
     const superZone = Board.getZone(zone.superZone, board);
     // provideSuper advances super rotation
     superId = Zone.provideSuper({ zone: superZone, shifts: board.shifts });
-    Shift.adjustCount({ shift: board.shifts[superId], type: "supervised", amount: 1 });
+    Shift.adjustCount({
+      shift: board.shifts[superId],
+      type: "supervised",
+      amount: 1,
+    });
   }
 
   // event
@@ -59,7 +64,7 @@ const toShift = (
     zoneSlug: Zone["slug"];
     mode: PatientModes;
     room: string;
-  }
+  },
 ): void => {
   assign(board, params);
 };
@@ -71,7 +76,7 @@ const toZone = (
     zoneSlug: Zone["slug"];
     mode: PatientModes;
     room: string;
-  }
+  },
 ): void => {
   const zone = board.zones[params.zoneSlug];
   if (zone.next === null) {
@@ -97,21 +102,21 @@ const reassign = (
   params: {
     eventId: BoardEvent["id"];
     newShiftId: Shift["id"];
-  }
+  },
 ): void => {
   const { eventId, newShiftId } = params;
   const event = board.events[eventId];
   if (event.assign === undefined) {
     throw Error(`No event.assign set for event: ${event.id}`);
   }
-  if (event.super === undefined) {
-    throw Error(`No event.super set for event: ${event.id}`);
-  }
   const oldShift = Board.getShift(event.assign, board);
   const newShift = Board.getShift(newShiftId, board);
-  let newSuperId: string | null = event.super; // let new super equal old super, change as needed
+  let newSuperId: string | null = event.super ?? null; // let new super equal old super, change as needed
 
-  Event.addReassign({ priorEvent: event, newProvider: `${newShift.first} ${newShift.last}` });
+  Event.addReassign({
+    priorEvent: event,
+    newProvider: `${newShift.first} ${newShift.last}`,
+  });
   Shift.adjustCount({ shift: oldShift, amount: -1, type: "assigned" });
   Shift.adjustCount({ shift: newShift, amount: 1, type: "assigned" });
 
@@ -141,7 +146,10 @@ const reassign = (
   Board.addEvent(board, eventParams);
 };
 
-const changeRoom = (board: Board, params: { eventId: BoardEvent["id"]; newRoom: string }): void => {
+const changeRoom = (
+  board: Board,
+  params: { eventId: BoardEvent["id"]; newRoom: string },
+): void => {
   const { eventId, newRoom } = params;
   Event.changeRoom({ event: board.events[eventId], newRoom });
 };

@@ -89,8 +89,7 @@ const board = {
       mode: "ambo",
       room: "1",
       assign: "O40CbA",
-      super: "O40CbA",
-      message: "This assignment is wrong.",
+      super: "Yt3LEo",
     },
     WyYkUK: {
       id: "WyYkUK",

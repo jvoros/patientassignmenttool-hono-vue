@@ -1,12 +1,10 @@
 <script setup>
 import IconMode from "./IconMode.vue";
 const { mode } = defineProps(["mode"]);
-
-const iconClass = `tl-icon-${mode}`;
 </script>
 
 <template>
-    <div class="tl-icon" :class="iconClass">
+    <div class="tl-icon" :class="'tl-icon-' + mode">
         <IconMode :mode="mode" />
     </div>
 </template>

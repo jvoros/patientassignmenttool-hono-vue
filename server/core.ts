@@ -46,7 +46,9 @@ type Action = {
 const reducer = (currentBoard: Board, action: Action): Board => {
   const handler = handlers[action.type];
   if (handler) {
-    return Board[handler](currentBoard, action.payload);
+    const { board, error } = Board[handler](currentBoard, action.payload);
+    if (error) throw error;
+    return board;
   }
   return currentBoard;
 };
@@ -71,6 +73,7 @@ core.post("/action", async (c) => {
 
   try {
     const newBoard = reducer(currentBoard, action);
+    db.updateBoard(site, newBoard);
     io.to(site).emit("board", newBoard);
     return c.json({ data: "success", error: false });
   } catch (err) {

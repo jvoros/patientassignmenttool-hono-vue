@@ -1,13 +1,29 @@
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, useTemplateRef } from "vue";
+import { site, api } from "./store.js";
+
+const popover = useTemplateRef("signin-popover");
 const selectedClinician = ref("");
 const selectedShift = ref("");
 const resets = [selectedClinician, selectedShift];
 const isComplete = computed(() => resets.every((el) => el.value !== ""));
+const isResetShift = computed(
+    () => selectedShift.value === JSON.stringify(site.value.schedule[0] ?? ""),
+);
+
 const onHide = () => {
     resets.forEach((r) => {
         r.value = "";
     });
+};
+
+const addToBoard = () => {
+    const payload = {
+        provider: JSON.parse(selectedClinician.value),
+        schedule: JSON.parse(selectedShift.value),
+    };
+    api.signIn(payload);
+    popover.value.hide();
 };
 </script>
 
@@ -16,30 +32,64 @@ const onHide = () => {
         <wa-icon name="stethoscope" slot="start"></wa-icon>
         Add Clinician
     </wa-button>
+
     <wa-popover
         for="popover__addClinician"
         placement="bottom"
         style="--arrow-size: 0"
+        ref="signin-popover"
         @wa-after-hide.self="onHide"
     >
-        <div>
+        <section>
             <wa-select placeholder="Clinician" v-model="selectedClinician">
-                <wa-option value="Jeremy Voros">Jeremy Voros</wa-option>
+                <template v-for="provider in site.providers">
+                    <wa-option :value="JSON.stringify(provider)">
+                        {{ provider.first }} {{ provider.last }}
+                    </wa-option>
+                </template>
             </wa-select>
+
             <wa-select placeholder="Shift" v-model="selectedShift">
-                <wa-option value="6a-3p">6 am - 3 pm</wa-option>
+                <template v-for="schedule in site.schedule">
+                    <wa-option :value="JSON.stringify(schedule)">
+                        {{ schedule.name }}
+                    </wa-option>
+                </template>
             </wa-select>
-            <wa-button size="small" style="width: 100%" :disabled="!isComplete"
-                >Add to Board</wa-button
+
+            <div class="warn" v-if="isResetShift">
+                Adding <b>{{ site.schedule[0].name }}</b> <br />will reset
+                board.
+            </div>
+
+            <wa-button
+                size="small"
+                style="width: 100%"
+                :disabled="!isComplete"
+                @click="addToBoard"
             >
-        </div>
+                Add to Board
+            </wa-button>
+        </section>
     </wa-popover>
 </template>
 
 <style scoped>
-div {
+section {
     display: flex;
     flex-direction: column;
     gap: 1rem;
+}
+
+.warn {
+    color: var(--color-warn);
+    background: var(--bg-warn);
+    padding: var(--padding-half);
+    border-radius: var(--radius);
+    text-align: center;
+}
+
+span {
+    font-weight: bold;
 }
 </style>

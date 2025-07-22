@@ -1,40 +1,39 @@
 import { ref } from "vue";
-import mockBoard from "../mockBoard.js";
+//import mockBoard from "../mockBoard.js";
 
-export const board = ref();
+// board & site
+export const board = ref(null);
+
+const getBoard = async () => {
+  const { data } = await post("/api/core/board");
+  board.value = JSON.parse(data.board);
+};
+
 export const updateBoard = (newBoard) => {
   board.value = newBoard;
 };
 
-export const socketConnected = ref(false);
+export const site = ref(null);
 
-export const error = ref(null);
-export const catchError = (err) => {
-  console.error(err.stack);
-  error.value = err.message;
-  setTimeout(() => {
-    error.value = null;
-  }, 3000);
-  return false;
+const getSite = async () => {
+  const { data } = await post("/api/core/site");
+  site.value = JSON.parse(data.site);
 };
 
+const getBoardAndSite = async () => {
+  await getBoard();
+  await getSite();
+};
+
+// token
 export const token = ref(null);
-export const setToken = (newToken) => {
+
+const setToken = (newToken) => {
   token.value = newToken;
 };
 
-export const formatTime = (epoch) => {
-  const formatter = new Intl.DateTimeFormat("en-US", {
-    hour: "2-digit",
-    minute: "2-digit",
-    timeZone: "America/Denver",
-    hour12: false,
-  });
-
-  return formatter.format(new Date(epoch));
-};
-
-export async function post(url, payload = {}) {
+// api caller
+const post = async (url, payload = {}) => {
   try {
     const response = await fetch(url, {
       method: "POST",
@@ -48,4 +47,93 @@ export async function post(url, payload = {}) {
   } catch (error) {
     catchError(error);
   }
-}
+};
+
+export const dispatch = async (action) => {
+  const res = await post("/api/core/action", action);
+};
+
+export const api = {
+  undo: () => {
+    dispatch({ type: "UNDO" });
+  },
+  // payload { provider, schedule}
+  signIn: (payload) => {
+    dispatch({ type: "SIGNIN", payload });
+  },
+  // payload { eventId, newShiftId}
+  reassign: (payload) => {
+    dispatch({ type: "REASSIGN", payload });
+  },
+  // payload { eventId, newRoom}
+  changeRoom: (payload) => {
+    dispatch({ type: "CHANGEROOM", payload });
+  },
+};
+
+// socket
+export const socketConnected = ref(null);
+
+// auth
+export const login = async (payload) => {
+  const res = await post("/api/auth/login", payload);
+  if (res) {
+    setToken(res);
+    getBoardAndSite();
+  }
+};
+
+export const checkLogin = async () => {
+  const res = await post("/api/auth/checklogin");
+  if (res.status === "noauth") {
+    console.log("[checkLogin] noauth");
+    setToken(null);
+  } else {
+    setToken(res);
+    getBoardAndSite();
+    console.log("[checkLogin] success");
+  }
+};
+
+export const logout = async () => {
+  const res = await post("/api/auth/logout");
+  if (res.status === "success") setToken(null);
+};
+
+// error handling
+export const error = ref(null);
+
+const catchError = (err) => {
+  console.error(err.stack);
+  error.value = err.message;
+  setTimeout(() => {
+    error.value = null;
+  }, 3000);
+  return false;
+};
+
+// time util
+export const formatTime = (epoch) => {
+  const formatter = new Intl.DateTimeFormat("en-US", {
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZone: "America/Denver",
+    hour12: false,
+  });
+
+  return formatter.format(new Date(epoch));
+};
+
+// ordered shifts
+export const getShiftIdsAlphabetized = () => {
+  const shifts = [];
+  Object.keys(board.value.shifts).forEach((shiftId) =>
+    shifts.push(board.value.shifts[shiftId]),
+  );
+  const sortedShifts = shifts.sort((a, b) => {
+    if (a.last < b.last) return -1;
+    if (a.last > b.last) return 1;
+    return 0;
+  });
+  return sortedShifts.map((shift) => shift.id);
+};

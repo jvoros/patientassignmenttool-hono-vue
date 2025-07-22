@@ -1,21 +1,23 @@
 <script setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
 
-import { Undo2 } from "lucide-vue-next";
-import { board } from "./store.js";
+import { board, api } from "./store.js";
 import ZoneHeader from "./ZoneHeader.vue";
 import TimelineFilter from "./TimelineFilter.vue";
 import TimelineNode from "./TimelineNode.vue";
 
-const filterClinician = ref("");
-const timeline = board.value.timeline.map(
-    (eventId) => board.value.events[eventId],
+const timeline = computed(() =>
+    board.value.timeline.map((eventId) => board.value.events[eventId]),
 );
 
-const setFilter = (clinician) => {
-    filterClinician.value = clinician;
+const filterShiftId = ref("");
+const setFilter = (shiftId) => {
+    filterShiftId.value = shiftId;
 };
-const docs = ["Jeremy Voros", "Julius Ivring", "Doc Watson", "Brian Kasvana"];
+
+const undo = () => {
+    api.undo();
+};
 </script>
 
 <template>
@@ -25,18 +27,18 @@ const docs = ["Jeremy Voros", "Julius Ivring", "Doc Watson", "Brian Kasvana"];
     >
         <TimelineFilter
             :setFilter="setFilter"
-            :providers="docs"
-            :filteredName="filterClinician"
+            :filteredShiftId="filterShiftId"
         />
     </ZoneHeader>
     <section class="tl-line">
         <template v-for="(event, index) in timeline">
-            <TimelineNode :event="event" :filter="filterClinician" />
+            <TimelineNode :event="event" :filter="filterShiftId" />
             <div class="undo" v-if="index === 0">
                 <wa-button
                     id="tl-undo"
                     appearance="outlined filled"
                     size="small"
+                    @click="undo"
                 >
                     <wa-icon name="undo"></wa-icon>
                 </wa-button>

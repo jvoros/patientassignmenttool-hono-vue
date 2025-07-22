@@ -17,6 +17,8 @@
     --border-color: var(--color-zinc-200);
     --color-secondary: var(--color-zinc-200);
     --color-alert: var(--color-red-400);
+    --color-warn: var(--color-amber-500);
+    --bg-warn: var(--color-amber-50);
 
     /* layout */
     --padding: 1rem 1rem;

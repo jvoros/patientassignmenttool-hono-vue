@@ -1,35 +1,35 @@
 <script setup>
 import { ListFilter } from "lucide-vue-next";
+import { board, getShiftIdsAlphabetized } from "./store.js";
 
-const { providers, setFilter } = defineProps([
-    "providers",
+const { setFilter, filteredShiftId } = defineProps([
     "setFilter",
-    "filteredName",
+    "filteredShiftId",
 ]);
-
-const handleClick = (item) => {
-    setFilter(item);
-};
 </script>
 
 <template>
     <wa-dropdown placement="bottom-end" distance="10">
         <button slot="trigger" class="unbutton">
-            <span v-if="filteredName !== ''"> {{ filteredName }} </span>
+            <span v-if="filteredShiftId !== ''">
+                {{ board.shifts[filteredShiftId]?.first }}
+                {{ board.shifts[filteredShiftId]?.last }}
+            </span>
             <span v-else> FILTER </span>
             <ListFilter size="14" slot="end" />
         </button>
 
-        <template v-if="!filteredName">
+        <template v-if="!filteredShiftId">
             <h4>Show only:</h4>
             <wa-dropdown-item
-                @click="handleClick(item)"
-                v-for="item in providers"
+                v-for="shiftId in getShiftIdsAlphabetized()"
+                @click="setFilter(shiftId)"
             >
-                {{ item }}
+                {{ board?.shifts[shiftId].first }}
+                {{ board?.shifts[shiftId].last }}
             </wa-dropdown-item>
         </template>
-        <wa-dropdown-item @click="handleClick('')" v-else>
+        <wa-dropdown-item @click="setFilter('')" v-else>
             <wa-icon name="xmark" slot="icon"></wa-icon> Clear Filter
         </wa-dropdown-item>
     </wa-dropdown>
