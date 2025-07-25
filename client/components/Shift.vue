@@ -4,25 +4,32 @@ import { board } from "./store.js";
 import ShiftMenu from "./ShiftMenu.vue";
 import ShiftAssignPopover from "./ShiftAssignPopover.vue";
 
-const { shiftId, zoneType, isNext, isSuper } = defineProps([
+const { shiftId, zone, isNext, isSuper } = defineProps([
     "shiftId",
     "isNext",
     "isSuper",
-    "zoneType",
+    "zone",
 ]);
 const shift = computed(() => board.value.shifts[shiftId]);
-const isRot = zoneType === "rotation" || zoneType === "dual";
-const useNextFlag = isNext && isRot;
-const isSkipped = shift.value.status === "skip" && isRot;
-const isPaused = shift.value.status === "paused" && isRot;
+const isRot = computed(() => zone.type === "rotation" || zone.type === "dual");
+const useNextFlag = computed(() => isNext && isRot.value);
+const isSkipped = computed(() => shift.value.status === "skip" && isRot);
+const isPaused = computed(() => shift.value.status === "paused" && isRot);
+const isOffRot = computed(() => zone.slug === "off");
 </script>
 
 <template>
-    <div class="shift" :class="{ next: useNextFlag }">
+    <div class="shift" :class="{ next: useNextFlag, off: isOffRot }">
         <div v-if="useNextFlag" class="nextFlag">NEXT</div>
         <div class="menubar">
             <span class="shiftName">{{ shift.name }}</span>
-            <div class="menu"><ShiftMenu :isPaused="isPaused" /></div>
+            <div class="menu">
+                <ShiftMenu
+                    :isPaused="isPaused"
+                    :shift="shift"
+                    :zoneSlug="zone.slug"
+                />
+            </div>
         </div>
         <div class="content">
             <div>
@@ -33,8 +40,12 @@ const isPaused = shift.value.status === "paused" && isRot;
                 </div>
             </div>
             <div class="buttons">
-                <div class="badge skip-badge" v-if="isSkipped">SKIP</div>
-                <div class="badge pause-badge" v-if="isPaused">PAUSED</div>
+                <div class="badge skip-badge" v-if="isSkipped && isRot">
+                    SKIP
+                </div>
+                <div class="badge pause-badge" v-if="isPaused && isRot">
+                    PAUSED
+                </div>
                 <div class="badge super-badge" v-if="isSuper">SUPER</div>
                 <ShiftAssignPopover :id="shift.id" v-if="isNext" />
             </div>
@@ -112,6 +123,11 @@ const isPaused = shift.value.status === "paused" && isRot;
     font-weight: 700;
     text-transform: uppercase;
     text-align: center;
+}
+
+.off {
+    color: var(--text-muted);
+    background-color: var(--bg-muted);
 }
 
 .buttons {

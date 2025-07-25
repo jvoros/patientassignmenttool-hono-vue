@@ -1,7 +1,47 @@
 <script setup>
+import { computed } from "vue";
 import { Menu } from "lucide-vue-next";
+import { board, dispatch } from "./store.js";
 
-const { shift, isPaused } = defineProps(["shift", "isPaused"]);
+const { shift, isPaused, zoneSlug } = defineProps([
+    "shift",
+    "isPaused",
+    "zoneSlug",
+]);
+
+const otherZones = computed(() => {
+    return Object.keys(board.value.zones).filter(
+        (z) => z !== zoneSlug && z !== "off",
+    );
+});
+
+const togglePause = () => {
+    dispatch("togglePause", { shiftId: shift.id });
+};
+
+const alsoJoin = (value) => {
+    dispatch("joinZone", { shiftId: shift.id, zoneSlug: value });
+};
+
+const switchZone = (value) => {
+    dispatch("switchZone", {
+        shiftId: shift.id,
+        leaveZoneSlug: zoneSlug,
+        joinZoneSlug: value,
+    });
+};
+
+const leaveZone = (value) => {
+    dispatch("leaveZone", { shiftId: shift.id, zoneSlug: value });
+};
+
+const deleteShift = () => {
+    dispatch("deleteShift", { shiftId: shift.id });
+};
+
+const signOut = () => {
+    dispatch("signOut", { shiftId: shift.id });
+};
 </script>
 
 <template>
@@ -15,80 +55,57 @@ const { shift, isPaused } = defineProps(["shift", "isPaused"]);
             Assign Patient
         </wa-dropdown-item>
         <wa-divider></wa-divider>
-        <wa-dropdown-item v-if="!isPaused">
+        <wa-dropdown-item v-if="!isPaused" @click="togglePause">
             <wa-icon name="circle-pause" slot="icon"></wa-icon>
             Pause Shift
         </wa-dropdown-item>
-        <wa-dropdown-item v-if="isPaused">
+        <wa-dropdown-item v-if="isPaused" @click="togglePause">
             <wa-icon name="circle-play" slot="icon"></wa-icon>
             Unpause Shift
         </wa-dropdown-item>
         <wa-divider></wa-divider>
         <wa-dropdown-item>
             <wa-icon name="arrow-right-arrow-left" slot="icon"></wa-icon>
-            Move to Zone
-            <wa-dropdown-item slot="submenu">Fast Track</wa-dropdown-item>
-            <wa-dropdown-item slot="submenu">Trauma</wa-dropdown-item>
+            Switch to Zone
+            <template v-for="zone in otherZones">
+                <wa-dropdown-item
+                    slot="submenu"
+                    @click="switchZone(board.zones[zone].slug)"
+                >
+                    {{ board.zones[zone].name }}
+                </wa-dropdown-item>
+            </template>
         </wa-dropdown-item>
         <wa-dropdown-item>
             <wa-icon name="plus" slot="icon"></wa-icon>
-            Add to Zone
-            <wa-dropdown-item slot="submenu">Fast Track</wa-dropdown-item>
-            <wa-dropdown-item slot="submenu">Trauma</wa-dropdown-item>
+            Also Join Zone
+            <template v-for="zone in otherZones">
+                <wa-dropdown-item
+                    slot="submenu"
+                    @click="alsoJoin(board.zones[zone].slug)"
+                >
+                    {{ board.zones[zone].name }}
+                </wa-dropdown-item>
+            </template>
         </wa-dropdown-item>
-        <wa-dropdown-item>
+        <wa-dropdown-item @click="leaveZone(zoneSlug)">
             <wa-icon name="arrow-left" slot="icon"></wa-icon>
             Leave this Zone
         </wa-dropdown-item>
         <wa-divider></wa-divider>
-        <wa-dropdown-item variant="danger">
+        <wa-dropdown-item
+            variant="danger"
+            @click="deleteShift()"
+            v-if="shift.assigned + shift.supervised === 0"
+        >
             <wa-icon name="trash" slot="icon"></wa-icon>
             Delete Shift
         </wa-dropdown-item>
-        <wa-dropdown-item>
+        <wa-dropdown-item @click="signOut()">
             <wa-icon name="smile" slot="icon"></wa-icon>
             Sign Out
         </wa-dropdown-item>
     </wa-dropdown>
-    <!-- <Popover align="end" :menu="true">
-        <PopoverTrigger>
-            <button data-tooltip="Shift menu"><Menu size="14" /></button>
-        </PopoverTrigger>
-        <PopoverPanel align="end">
-            <div role="menu" class="shiftmenu">
-                <div role="heading">Shift Menu</div>
-                <div role="menuitem"><UserPlus />Assign Patient</div>
-                <hr role="separator" />
-                <div role="menuitem" v-if="!isPaused">
-                    <CirclePause />Pause Shift
-                </div>
-                <div role="menuitem" v-if="isPaused">
-                    <CirclePlay />Unpause Shift
-                </div>
-                <hr role="separator" />
-                <Submenu>
-                    <ArrowLeftRight />Move to Zone
-                    <SubmenuPanel>
-                        <div role="heading">Move to Zone:</div>
-                        <div role="menuitem">Fast Track</div>
-                        <div role="menuitem">Trauma</div>
-                    </SubmenuPanel>
-                </Submenu>
-                <Submenu>
-                    <Plus />Add to Zone
-                    <SubmenuPanel>
-                        <div role="heading">Add to Zone:</div>
-                        <div role="menuitem">Fast Track</div>
-                        <div role="menuitem">Trauma</div>
-                    </SubmenuPanel>
-                </Submenu>
-                <div role="menuitem"><ArrowLeft />Leave this Zone</div>
-                <hr role="separator" />
-                <div role="menuitem"><CircleX />Delete Shift</div>
-                <div role="menuitem"><Smile />Sign Out</div>
-            </div>
-        </PopoverPanel>
-    </Popover> -->
 </template>
 
 <style scoped>

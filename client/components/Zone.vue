@@ -23,7 +23,7 @@ const isNext = (ind) => {
         <template v-for="(shiftId, index) in zone.shifts">
             <Shift
                 :shiftId="shiftId"
-                :zoneType="zone.type"
+                :zone="zone"
                 :isNext="isNext(index)"
                 :isSuper="zone.super === index"
             />
