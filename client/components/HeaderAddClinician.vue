@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed, useTemplateRef } from "vue";
-import { site, api } from "./store.js";
+import { site, dispatch } from "./store.js";
 
 const popover = useTemplateRef("signin-popover");
 const selectedClinician = ref("");
@@ -22,7 +22,7 @@ const addToBoard = () => {
         provider: JSON.parse(selectedClinician.value),
         schedule: JSON.parse(selectedShift.value),
     };
-    api.signIn(payload);
+    dispatch("signIn", payload);
     popover.value.hide();
 };
 </script>

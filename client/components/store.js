@@ -1,6 +1,9 @@
 import { ref } from "vue";
 //import mockBoard from "../mockBoard.js";
 
+// socket
+export const socketConnected = ref(null);
+
 // board & site
 export const board = ref(null);
 
@@ -25,14 +28,7 @@ const getBoardAndSite = async () => {
   await getSite();
 };
 
-// token
-export const token = ref(null);
-
-const setToken = (newToken) => {
-  token.value = newToken;
-};
-
-// api caller
+// api handlers
 const post = async (url, payload = {}) => {
   try {
     const response = await fetch(url, {
@@ -49,32 +45,16 @@ const post = async (url, payload = {}) => {
   }
 };
 
-export const dispatch = async (action) => {
-  const res = await post("/api/core/action", action);
-};
-
-export const api = {
-  undo: () => {
-    dispatch({ type: "UNDO" });
-  },
-  // payload { provider, schedule}
-  signIn: (payload) => {
-    dispatch({ type: "SIGNIN", payload });
-  },
-  // payload { eventId, newShiftId}
-  reassign: (payload) => {
-    dispatch({ type: "REASSIGN", payload });
-  },
-  // payload { eventId, newRoom}
-  changeRoom: (payload) => {
-    dispatch({ type: "CHANGEROOM", payload });
-  },
-};
-
-// socket
-export const socketConnected = ref(null);
+export const dispatch = (boardMethod, payload = {}) =>
+  post("/api/core/action", { type: boardMethod, payload });
 
 // auth
+export const token = ref(null);
+
+const setToken = (newToken) => {
+  token.value = newToken;
+};
+
 export const login = async (payload) => {
   const res = await post("/api/auth/login", payload);
   if (res) {

@@ -1,6 +1,6 @@
 <script setup>
 import { computed } from "vue";
-import { site, board, getShiftIdsAlphabetized, api } from "./store.js";
+import { site, board, getShiftIdsAlphabetized, dispatch } from "./store.js";
 const { value, heading, align, which, eventId } = defineProps([
     "value",
     "heading",
@@ -30,9 +30,9 @@ const items = computed(() => {
 
 const handleClick = (item) => {
     if (which === "room") {
-        api.changeRoom({ eventId, newRoom: item.value });
+        dispatch("changeRoom", { eventId, newRoom: item.value });
     } else {
-        api.reassign({ eventId, newShiftId: item.value });
+        dispatch("reassign", { eventId, newShiftId: item.value });
     }
 };
 </script>

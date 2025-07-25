@@ -38,15 +38,31 @@ const handlers: Record<string, string> = {
   CHANGEROOM: "changeRoom",
 };
 
+const handlers2 = [
+  "reset",
+  "undo",
+  "signIn",
+  "signOut",
+  "joinZone",
+  "leaveZone",
+  "switchZone",
+  "deleteShift",
+  "adjustRotation",
+  "togglePause",
+  "assignToShift",
+  "assignToZone",
+  "reassign",
+  "changeRoom",
+];
+
 type Action = {
   type: string;
   payload: object;
 };
 
 const reducer = (currentBoard: Board, action: Action): Board => {
-  const handler = handlers[action.type];
-  if (handler) {
-    const { board, error } = Board[handler](currentBoard, action.payload);
+  if (handlers2.includes(action.type)) {
+    const { board, error } = Board[action.type](currentBoard, action.payload);
     if (error) throw error;
     return board;
   }

@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed } from "vue";
 
-import { board, api } from "./store.js";
+import { board, dispatch } from "./store.js";
 import ZoneHeader from "./ZoneHeader.vue";
 import TimelineFilter from "./TimelineFilter.vue";
 import TimelineNode from "./TimelineNode.vue";
@@ -16,7 +16,7 @@ const setFilter = (shiftId) => {
 };
 
 const undo = () => {
-    api.undo();
+    dispatch("undo");
 };
 </script>
 
