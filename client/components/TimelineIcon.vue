@@ -40,7 +40,7 @@ const { mode } = defineProps(["mode"]);
 }
 
 .tl-icon-walkin {
-    --icon-color: yellow;
+    --icon-color: var(--color-amber-500);
     --icon-background: lightyellow;
 }
 

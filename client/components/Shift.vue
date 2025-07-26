@@ -2,7 +2,8 @@
 import { computed } from "vue";
 import { board } from "./store.js";
 import ShiftMenu from "./ShiftMenu.vue";
-import ShiftAssignPopover from "./ShiftAssignPopover.vue";
+import AssignZonePopover from "./AssignZonePopover.vue";
+import AssignShiftPopover from "./AssignShiftPopover.vue";
 
 const { shiftId, zone, isNext, isSuper } = defineProps([
     "shiftId",
@@ -24,6 +25,7 @@ const isOffRot = computed(() => zone.slug === "off");
         <div class="menubar">
             <span class="shiftName">{{ shift.name }}</span>
             <div class="menu">
+                <AssignShiftPopover :id="shift.id" , :zoneSlug="zone.slug" />
                 <ShiftMenu
                     :isPaused="isPaused"
                     :shift="shift"
@@ -47,7 +49,11 @@ const isOffRot = computed(() => zone.slug === "off");
                     PAUSED
                 </div>
                 <div class="badge super-badge" v-if="isSuper">SUPER</div>
-                <ShiftAssignPopover :id="shift.id" v-if="isNext" />
+                <AssignZonePopover
+                    :id="shift.id"
+                    :zoneSlug="zone.slug"
+                    v-if="isNext"
+                />
             </div>
         </div>
     </div>
@@ -67,7 +73,7 @@ const isOffRot = computed(() => zone.slug === "off");
     padding: 0.25rem 0.5rem;
     font-size: 0.8rem;
     background-color: var(--bg-muted);
-    color: var(--text-muted);
+    color: var(--text);
 }
 
 .menubar:first-child {
@@ -81,11 +87,14 @@ const isOffRot = computed(() => zone.slug === "off");
 
 .shiftName {
     text-transform: uppercase;
-    font-weight: 700;
+    font-weight: 500;
 }
 
 .menu {
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 .content {

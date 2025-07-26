@@ -1,5 +1,5 @@
 <script setup>
-import { Ambulance, Info, UserPlus, Zap, Siren, Shield } from "lucide-vue-next";
+import { Ambulance, UserPlus, Zap, Shield } from "lucide-vue-next";
 const { mode, size } = defineProps(["mode", "size"]);
 const iconSize = size ?? 18;
 </script>

@@ -20,7 +20,7 @@ const { event } = defineProps(["event"]);
                 {{ board.shifts[event.super].first }}
                 {{ board.shifts[event.super].last }}
             </div>
-            <div class="message" v-if="event.message">{{ event.message }}</div>
+            <!-- <div class="message" v-if="event.message">{{ event.message }}</div> -->
             <div class="message" v-if="event.note">{{ event.note }}</div>
         </div>
 

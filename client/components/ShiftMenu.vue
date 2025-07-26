@@ -50,11 +50,6 @@ const signOut = () => {
             <Menu size="14" />
         </button>
         <h4>Shift Menu</h4>
-        <wa-dropdown-item>
-            <wa-icon name="user-plus" slot="icon"></wa-icon>
-            Assign Patient
-        </wa-dropdown-item>
-        <wa-divider></wa-divider>
         <wa-dropdown-item v-if="!isPaused" @click="togglePause">
             <wa-icon name="circle-pause" slot="icon"></wa-icon>
             Pause Shift
