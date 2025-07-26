@@ -9,7 +9,10 @@ const EVENT_LIMIT = parseInt(process.env.DEV_EVENT_LIMIT as string) || 25;
 
 // MAKE
 
-const make = (params: { slug: string; zoneConfig: ZoneMakeParams[] }): Board => {
+const make = (params: {
+  slug: string;
+  zoneConfig: ZoneMakeParams[];
+}): Board => {
   const { slug, zoneConfig } = params;
   const board: Board = {
     slug: slug,
@@ -59,7 +62,10 @@ const reset = (board: Board): { board: Board; logs: LogItem[] } => {
 
 // SIGN IN
 
-const signIn = (board: Board, params: { provider: Provider; schedule: ScheduleItem }): void => {
+const signIn = (
+  board: Board,
+  params: { provider: Provider; schedule: ScheduleItem },
+): void => {
   const { provider, schedule } = params;
   const zone = getZone(schedule.joins, board);
   const shift = Shift.make({ schedule, provider });
@@ -100,7 +106,10 @@ const signOut = (board: Board, params: { shiftId: Shift["id"] }): void => {
 
 // JOIN
 
-const joinZone = (board: Board, params: { shiftId: Shift["id"]; zoneSlug: Zone["slug"] }): void => {
+const joinZone = (
+  board: Board,
+  params: { shiftId: Shift["id"]; zoneSlug: Zone["slug"] },
+): void => {
   const { shiftId, zoneSlug } = params;
   const zone = getZone(zoneSlug, board);
   const shift = getShift(shiftId, board);
@@ -118,7 +127,7 @@ const joinZone = (board: Board, params: { shiftId: Shift["id"]; zoneSlug: Zone["
 
 const leaveZone = (
   board: Board,
-  params: { shiftId: Shift["id"]; zoneSlug: Zone["slug"] }
+  params: { shiftId: Shift["id"]; zoneSlug: Zone["slug"] },
 ): void => {
   const { shiftId, zoneSlug } = params;
 
@@ -130,7 +139,11 @@ const leaveZone = (
 
   // leave zone
   const leaveZone = board.zones[zoneSlug];
-  Zone.leaveZone({ leaveShiftId: shiftId, zone: leaveZone, shifts: board.shifts });
+  Zone.leaveZone({
+    leaveShiftId: shiftId,
+    zone: leaveZone,
+    shifts: board.shifts,
+  });
 
   // event
   const shift = board.shifts[shiftId];
@@ -146,7 +159,7 @@ const switchZone = (
     shiftId: Shift["id"];
     leaveZoneSlug: Zone["slug"];
     joinZoneSlug: Zone["slug"];
-  }
+  },
 ): void => {
   const { shiftId, leaveZoneSlug, joinZoneSlug } = params;
   const shift = getShift(shiftId, board);
@@ -154,7 +167,11 @@ const switchZone = (
   const leavingZone = getZone(leaveZoneSlug, board);
 
   Zone.joinZone({ zone: joiningZone, shift: shift });
-  Zone.leaveZone({ leaveShiftId: shiftId, zone: leavingZone, shifts: board.shifts });
+  Zone.leaveZone({
+    leaveShiftId: shiftId,
+    zone: leavingZone,
+    shifts: board.shifts,
+  });
 
   // event
   const eventMessage = `${shift.first} ${shift.last} switched from ${leavingZone.name} to ${joiningZone.name}`;
@@ -196,19 +213,19 @@ const adjustRotation = (
     zoneSlug: Zone["slug"];
     which: ZonePointer;
     offset: number;
-  }
+  },
 ): void => {
   const { zoneSlug, which, offset } = params;
   const zone = getZone(zoneSlug, board);
-
-  Zone.movePointer({ zone, shifts: board.shifts, which, offset });
-  if (zone.next === null) {
-    throw Error(`No zone.next set for zone: ${zone.slug}`);
+  if (zone[which] === null) {
+    throw Error(`No zone.${which} set for zone: ${zone.slug}`);
   }
 
+  Zone.movePointer({ zone, shifts: board.shifts, which, offset });
+
   // event
-  const shift = getShift(zone.shifts[zone.next], board);
-  const superFlag = which === "super" ? "supervisor" : null;
+  const shift = getShift(zone.shifts[zone[which]!], board);
+  const superFlag = which === "super" ? "supervisor" : "";
   const dirFlag = offset > 0 ? "forward" : "back";
   const eventMessage = `Moved ${zone.name} ${superFlag} ${dirFlag} to ${shift.first} ${shift.last}`;
   addEventMessage(board, eventMessage);

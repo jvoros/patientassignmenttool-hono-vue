@@ -1,19 +1,26 @@
 <script setup>
 import { computed } from "vue";
-import { board } from "./store.js";
+import { board, dispatch } from "./store.js";
 import ZoneHeader from "./ZoneHeader.vue";
 import Shift from "./Shift.vue";
 
 const { slug } = defineProps(["slug"]);
 const zone = computed(() => board.value.zones[slug]);
 const instructions = `Instructions for ${zone.value.name}`;
-const isRotation = ["rotation", "dual"].includes(zone.value.type);
-const isSuperRot = ["dual", "super"].includes(zone.value.type);
+const isRotation = computed(() =>
+    ["rotation", "dual"].includes(zone.value.type),
+);
+const isSuperRot = computed(() => ["dual", "super"].includes(zone.value.type));
+const isSuper = (ind) => zone.value.super === ind;
 const isNext = (ind) => {
     const z = zone.value;
     return [z.next === ind, z.type === "simple" && ind === 0].some(
         (condition) => condition,
     );
+};
+
+const adjustRotation = (which, offset) => {
+    dispatch("adjustRotation", { zoneSlug: slug, which, offset });
 };
 </script>
 
@@ -25,7 +32,7 @@ const isNext = (ind) => {
                 :shiftId="shiftId"
                 :zone="zone"
                 :isNext="isNext(index)"
-                :isSuper="zone.super === index"
+                :isSuper="isSuper(index)"
             />
         </template>
         <div class="zone-controls" v-if="isRotation">
@@ -34,6 +41,7 @@ const isNext = (ind) => {
                 size="small"
                 appearance="outlined filled"
                 id="rotation-back"
+                @click="adjustRotation('next', -1)"
             >
                 <wa-icon name="chevron-left" slot="start"></wa-icon>
                 Rotation
@@ -45,6 +53,7 @@ const isNext = (ind) => {
                 size="small"
                 appearance="outlined filled"
                 id="rotation-forward"
+                @click="adjustRotation('next', 1)"
             >
                 Rotation
                 <wa-icon name="chevron-right" slot="end"></wa-icon>
@@ -56,6 +65,7 @@ const isNext = (ind) => {
                 size="small"
                 appearance="outlined filled"
                 id="super-back"
+                @click="adjustRotation('super', -1)"
             >
                 <wa-icon name="chevron-left" slot="start"></wa-icon>
                 Super
@@ -65,6 +75,7 @@ const isNext = (ind) => {
                 size="small"
                 appearance="outlined filled"
                 id="super-forward"
+                @click="adjustRotation('super', 1)"
             >
                 Super
                 <wa-icon name="chevron-right" slot="end"></wa-icon>

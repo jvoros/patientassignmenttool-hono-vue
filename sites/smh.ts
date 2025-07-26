@@ -44,7 +44,7 @@ const config: SiteConfig = {
     { last: "Baretela", first: "Tracie", role: "app" },
     { last: "Blake", first: "Kelly", role: "physician" },
     { last: "Bown", first: "Deanna", role: "app" },
-    { last: "Carmack", first: "Brian", role: "app" },
+    { last: "Carmack", first: "Brian", role: "physician" },
     { last: "Cheever", first: "Shelley", role: "app" },
     { last: "Christensen", first: "Mark", role: "physician" },
     { last: "Conca", first: "Rocco", role: "app" },

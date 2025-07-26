@@ -38,6 +38,9 @@ const joinZone = (params: { zone: Zone; shift: Shift }): void => {
         // to same index where just inserted
         zone.super = zone.next;
       }
+      if (shift.role === "app" && zone.super! >= zone.next) {
+        zone.super = zone.super! + 1;
+      }
       break;
 
     case "rotation":
@@ -58,7 +61,11 @@ const joinZone = (params: { zone: Zone; shift: Shift }): void => {
 
 // LEAVE ZONE
 
-const leaveZone = (params: { leaveShiftId: Shift["id"]; zone: Zone; shifts: IndexShift }): void => {
+const leaveZone = (params: {
+  leaveShiftId: Shift["id"];
+  zone: Zone;
+  shifts: IndexShift;
+}): void => {
   const { leaveShiftId, zone, shifts } = params;
   const index = zone.shifts.findIndex((s) => s === leaveShiftId);
   if (index === -1) return; // shift not in zone
@@ -95,7 +102,9 @@ const movePointer = (params: {
   offset: number;
 }): void => {
   // don't move pointer if no pointer to move
-  if (!zoneRotatesPointer(params.which, params.zone)) return;
+  if (!zoneRotatesPointer(params.which, params.zone)) {
+    throw Error("zone does not rotate pointer");
+  }
 
   const { zone, shifts, which } = params;
   let offset = params.offset;
@@ -131,6 +140,7 @@ type getNextIndexParams = {
 const getNextIndex = (params: getNextIndexParams): number => {
   const { zone, which, offset } = params;
   const current = zone[which] ?? 0;
+  console.log("getNextIndex current:", zone[which]);
   const arrayLength = zone.shifts.length;
   if (arrayLength === 0) return -1;
   return (current + offset + arrayLength) % arrayLength;
@@ -138,7 +148,10 @@ const getNextIndex = (params: getNextIndexParams): number => {
 
 // PROVIDE SUPER
 
-const provideSuper = (params: { zone: Zone; shifts: IndexShift }): Shift["id"] => {
+const provideSuper = (params: {
+  zone: Zone;
+  shifts: IndexShift;
+}): Shift["id"] => {
   const { zone, shifts } = params;
   if (zone.super === null) {
     throw Error(`No zone.super set for zone: ${zone.slug}`);
