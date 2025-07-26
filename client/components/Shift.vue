@@ -2,8 +2,7 @@
 import { computed } from "vue";
 import { board } from "./store.js";
 import ShiftMenu from "./ShiftMenu.vue";
-import AssignZonePopover from "./AssignZonePopover.vue";
-import AssignShiftPopover from "./AssignShiftPopover.vue";
+import AssignPopover from "./AssignPopover.vue";
 
 const { shiftId, zone, isNext, isSuper } = defineProps([
     "shiftId",
@@ -25,7 +24,11 @@ const isOffRot = computed(() => zone.slug === "off");
         <div class="menubar">
             <span class="shiftName">{{ shift.name }}</span>
             <div class="menu">
-                <AssignShiftPopover :id="shift.id" , :zoneSlug="zone.slug" />
+                <AssignPopover
+                    :id="shift.id"
+                    :zoneSlug="zone.slug"
+                    variant="shift"
+                />
                 <ShiftMenu
                     :isPaused="isPaused"
                     :shift="shift"
@@ -49,9 +52,10 @@ const isOffRot = computed(() => zone.slug === "off");
                     PAUSED
                 </div>
                 <div class="badge super-badge" v-if="isSuper">SUPER</div>
-                <AssignZonePopover
+                <AssignPopover
                     :id="shift.id"
                     :zoneSlug="zone.slug"
+                    variant="zone"
                     v-if="isNext"
                 />
             </div>

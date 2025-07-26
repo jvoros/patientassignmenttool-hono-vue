@@ -47,7 +47,7 @@ const signOut = () => {
 <template>
     <wa-dropdown distance="10" placement="bottom">
         <button class="unbutton" slot="trigger">
-            <Menu size="14" />
+            <Menu size="16" />
         </button>
         <h4>Shift Menu</h4>
         <wa-dropdown-item v-if="!isPaused" @click="togglePause">

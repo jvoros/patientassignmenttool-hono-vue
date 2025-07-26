@@ -1,6 +1,23 @@
 import { ref } from "vue";
 //import mockBoard from "../mockBoard.js";
 
+// error handling
+export const error = ref(null);
+
+const catchError = (err) => {
+  if (typeof err === "string") {
+    console.error(err);
+    error.value = err;
+  } else {
+    console.error(err.stack);
+    error.value = err.message;
+  }
+  setTimeout(() => {
+    error.value = null;
+  }, 3000);
+  return false;
+};
+
 // socket
 export const socketConnected = ref(null);
 
@@ -38,6 +55,9 @@ const post = async (url, payload = {}) => {
     const json = await response.json();
     if (!response.ok) {
       catchError(new Error(json.message));
+    }
+    if (json.error) {
+      catchError(`API ERROR: ${json.error}`);
     }
     return json;
   } catch (error) {
@@ -78,18 +98,6 @@ export const checkLogin = async () => {
 export const logout = async () => {
   const res = await post("/api/auth/logout");
   if (res.status === "success") setToken(null);
-};
-
-// error handling
-export const error = ref(null);
-
-const catchError = (err) => {
-  console.error(err.stack);
-  error.value = err.message;
-  setTimeout(() => {
-    error.value = null;
-  }, 3000);
-  return false;
 };
 
 // time util

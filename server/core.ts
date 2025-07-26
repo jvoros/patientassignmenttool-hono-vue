@@ -92,8 +92,9 @@ core.post("/action", async (c) => {
     db.updateBoard(site, newBoard);
     io.to(site).emit("board", newBoard);
     return c.json({ data: "success", error: false });
-  } catch (err) {
-    return c.json({ data: "error", error: err });
+  } catch (err: any) {
+    console.log("caught error:", err);
+    return c.json({ data: "error", error: err.message });
   }
 });
 

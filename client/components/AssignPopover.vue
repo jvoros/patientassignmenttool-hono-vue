@@ -3,9 +3,9 @@ import { ref, computed, useTemplateRef } from "vue";
 import { site, dispatch } from "./store.js";
 import IconMode from "./IconMode.vue";
 
-const { id, zoneSlug } = defineProps(["id", "zoneSlug"]);
+const { id, zoneSlug, variant } = defineProps(["id", "zoneSlug", "variant"]);
 
-const assignShiftPopover = useTemplateRef("assignShiftPopover");
+const assignPopover = useTemplateRef("assignPopover");
 const selectedMode = ref("");
 const selectedRoom = ref("");
 const resets = [selectedMode, selectedRoom];
@@ -28,35 +28,44 @@ const modes = [
 ];
 
 const assign = () => {
-    dispatch("assignToShift", {
-        shiftId: id,
-        zoneSlug,
-        mode: selectedMode.value,
-        room: selectedRoom.value,
-    });
-    assignShiftPopover.value.hide();
+    console.log("assign variant:", variant);
+
+    if (variant === "zone") {
+        dispatch("assignToZone", {
+            zoneSlug,
+            mode: selectedMode.value,
+            room: selectedRoom.value,
+        });
+    } else {
+        dispatch("assignToShift", {
+            shiftId: id,
+            zoneSlug,
+            mode: selectedMode.value,
+            room: selectedRoom.value,
+        });
+    }
+    assignPopover.value.hide();
 };
 </script>
 
 <template>
-    <wa-tooltip :for="'popover__assignShift_' + id + zoneSlug"
-        >Assign Off Rotation</wa-tooltip
-    >
-    <wa-icon
-        name="user-plus"
-        slot="icon"
-        :id="'popover__assignShift_' + id + zoneSlug"
-    ></wa-icon>
+    <span :id="'popover__assign_' + id + zoneSlug + variant">
+        <wa-button size="small" with-caret v-if="variant === 'zone'">
+            <wa-icon name="user-plus" slot="start"></wa-icon>
+            Assign
+        </wa-button>
+        <wa-icon name="user-plus" slot="icon" v-else></wa-icon>
+    </span>
 
     <wa-popover
-        :for="'popover__assignShift_' + id + zoneSlug"
-        ref="assignShiftPopover"
+        :for="'popover__assign_' + id + zoneSlug + variant"
+        ref="assignPopover"
         placement="bottom"
         style="--arrow-size: 0; --max-width: 15rem"
         @wa-after-hide.self="onHide"
     >
         <div>
-            <h3>Assign Off Rotation</h3>
+            <h3 v-if="variant === 'shift'">Assign Off Rotation</h3>
             <wa-button-group size="small">
                 <wa-button
                     v-for="mode in modes"

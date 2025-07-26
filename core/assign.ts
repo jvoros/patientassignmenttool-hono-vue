@@ -5,12 +5,16 @@ import Event from "./event.js";
 
 const ROLES_REQUIRING_SUPERVISOR = ["app"];
 const ROLES_TRIGGERING_SKIP = ["app"];
+const ZONES_WITH_POINTER = ["dual", "rotation"];
 
 const supervisorRequired = (shift: Shift): boolean =>
   ROLES_REQUIRING_SUPERVISOR.includes(shift.role);
 
 const providerTriggersSkip = (shift: Shift): boolean =>
   ROLES_TRIGGERING_SKIP.includes(shift.role);
+
+const hasPointer = (zone: Zone): boolean =>
+  ZONES_WITH_POINTER.includes(zone.type);
 
 // ASSIGN
 const assign = (
@@ -92,7 +96,9 @@ const toZone = (
     Shift.changeStatus({ shift, status: "skip" });
   }
 
-  Zone.movePointer({ zone, shifts: board.shifts, which: "next", offset: 1 });
+  if (hasPointer(zone)) {
+    Zone.movePointer({ zone, shifts: board.shifts, which: "next", offset: 1 });
+  }
 };
 
 // REASSIGN
