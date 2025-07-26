@@ -40,6 +40,19 @@ const withUndo = <T>(fn: BoardFn<T>) => {
   };
 };
 
+const signInCheckReset = (
+  board: Board,
+  params: {
+    provider: Provider;
+    schedule: ScheduleItem;
+  },
+) => {
+  if (params.schedule.reset) {
+    console.log("entered signIn reset...");
+  }
+  return withUndo(Board.signIn)(board, params);
+};
+
 const reset = (board: Board): CoreResponse => {
   const logs = Board.buildLogs(board.slug, board);
   const res = withUndo(Board.reset)(board, null);
@@ -63,7 +76,8 @@ export default {
   build: Board.make,
   reset,
   undo,
-  signIn: withUndo(Board.signIn),
+  // signIn: withUndo(Board.signIn),
+  signIn: signInCheckReset,
   signOut: withUndo(Board.signOut),
   joinZone: withUndo(Board.joinZone),
   leaveZone: withUndo(Board.leaveZone),

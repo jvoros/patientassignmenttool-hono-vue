@@ -82,6 +82,7 @@ type ScheduleItem = {
   name: string;
   bonus: number;
   joins: Zone["slug"];
+  reset?: boolean;
 };
 
 // PATIENT

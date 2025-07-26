@@ -29,7 +29,7 @@ const config: SiteConfig = {
   zoneOrder: ["main", "ft", "off"],
 
   schedule: [
-    { name: "6 am - 3 pm", bonus: 2, joins: "main" },
+    { name: "6 am - 3 pm", bonus: 2, joins: "main", reset: true },
     { name: "6 am - 3 pm APP", bonus: 0, joins: "main" },
     { name: "8 am - 5 pm", bonus: 2, joins: "main" },
     { name: "11 am - 8 pm", bonus: 2, joins: "main" },
