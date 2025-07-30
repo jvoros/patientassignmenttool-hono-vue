@@ -46,11 +46,12 @@ const signInCheckReset = (
     provider: Provider;
     schedule: ScheduleItem;
   },
-) => {
+): CoreResponse => {
+  const res = withUndo(Board.signIn)(board, params);
   if (params.schedule.reset) {
-    console.log("entered signIn reset...");
+    res.logs = Board.buildLogs(board.slug, board);
   }
-  return withUndo(Board.signIn)(board, params);
+  return res;
 };
 
 const reset = (board: Board): CoreResponse => {

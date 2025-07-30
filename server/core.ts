@@ -21,23 +21,6 @@ core.use(async (c, next) => {
 // core reducer
 
 // one entry for each method of core
-const handlers: Record<string, string> = {
-  RESET: "reset",
-  UNDO: "undo",
-  SIGNIN: "signIn",
-  SIGNOUT: "signOut",
-  JOINZONE: "joinZone",
-  LEAVEZONE: "leaveZone",
-  SWITCHZONE: "switchZone",
-  DELETESHIFt: "deleteShift",
-  ADJUSTROTATION: "adjustRotation",
-  TOGGLEPAUSE: "togglePause",
-  ASSIGNTOSHIFT: "assignToShift",
-  ASSIGNTOZONE: "assignToZone",
-  REASSIGN: "reassign",
-  CHANGEROOM: "changeRoom",
-};
-
 const handlers2 = [
   "reset",
   "undo",
@@ -96,14 +79,6 @@ core.post("/action", async (c) => {
     console.log("caught error:", err);
     return c.json({ data: "error", error: err.message });
   }
-});
-
-core.all("/test", async (c) => {
-  const { data, error } = await db.getBoard(c.get("site"));
-  console.log("BOARD:");
-  console.log(JSON.parse(data.board));
-  console.log("error:", error);
-  return c.text("success");
 });
 
 export default core;
