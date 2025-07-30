@@ -130,7 +130,7 @@ const reassign = (
   // if APP to APP, or DOC to DOC no change in supervisor
   // app to doc
   if (supervisorRequired(oldShift) && !supervisorRequired(newShift)) {
-    const oldSuper = Board.getShift(event.super, board);
+    const oldSuper = Board.getShift(event.super!, board);
 
     Shift.adjustCount({ shift: oldSuper, amount: -1, type: "supervised" });
     newSuperId = null;
