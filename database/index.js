@@ -27,6 +27,10 @@ const getSiteSql = `
   WHERE slug = :slug
   `;
 
+const updateLogsSql = `
+  INSERT INTO logs
+  `
+
 export default {
   getBoard: async (slug) => await query(getBoardSql, { slug }),
 
@@ -35,4 +39,4 @@ export default {
   },
 
   getSite: async (slug) => await query(getSiteSql, { slug }),
-};
+} as any;

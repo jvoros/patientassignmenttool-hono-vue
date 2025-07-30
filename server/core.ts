@@ -1,5 +1,6 @@
 import { Hono } from "hono";
 import { jwt } from "hono/jwt";
+// @ts-ignore
 import db from "../database/index.js";
 import Board from "../core/index.js";
 import { io } from "./index.js";

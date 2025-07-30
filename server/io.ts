@@ -1,7 +1,7 @@
 import { Server } from "socket.io";
 import { verifyToken } from "./auth.js";
 
-const useSocket = (honoServer) => {
+const useSocket = (honoServer: any): any => {
   const io = new Server(honoServer);
 
   io.on("connection", async (socket) => {
@@ -11,8 +11,8 @@ const useSocket = (honoServer) => {
       socket.disconnect();
       return;
     }
-    socket.join(payload.site);
-    console.log(`[socket][${payload.site}] new connection: ${socket.id}`);
+    socket.join(payload!.site as string);
+    console.log(`[socket][${payload!.site}] new connection: ${socket.id}`);
     console.log("[socket] total connections: ", io.of("/").sockets.size);
   });
 
