@@ -68,8 +68,11 @@ core.post("/action", async (c) => {
   const site = c.get("site");
   const action = await c.req.json();
   const { data, error } = await db.getBoard(site);
+  console.log("DATA FROM getBoard():");
+  console.log(data);
   if (error) return c.json({ data: "error", error });
-  const currentBoard = JSON.parse(data.board);
+  // @ts-ignore
+  const currentBoard = JSON.parse(data["board"]);
 
   try {
     const newBoard = reducer(currentBoard, action);
