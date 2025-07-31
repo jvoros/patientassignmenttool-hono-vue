@@ -11,12 +11,13 @@
     "build:client": "vite build ./client",
     "build:server": "tsc -p tsconfig.prod.json",
     "build": "npm run build:client & npm run build:server",
-    "start": "node dist/index.js"
+    "start": "NODE_ENV=production node dist/server/index.js"
   },
   "dependencies": {
     "@awesome.me/webawesome": "^3.0.0-beta.2",
     "@hono/node-server": "^1.14.4",
     "@libsql/client": "^0.15.10",
+    "@types/node": "^20.11.17",
     "hono": "^4.8.3",
     "immer": "^10.1.1",
     "lucide-vue-next": "^0.525.0",
@@ -28,7 +29,6 @@
     "vite": "^7.0.0"
   },
   "devDependencies": {
-    "@types/node": "^20.11.17",
     "@vitejs/plugin-vue": "^6.0.0",
     "concurrently": "^9.2.0",
     "vitest": "^3.2.4"
