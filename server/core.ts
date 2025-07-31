@@ -1,6 +1,5 @@
 import { Hono } from "hono";
 import { jwt } from "hono/jwt";
-// @ts-ignore
 import db from "../database/index.js";
 import Board from "../core/index.js";
 import { io } from "./index.js";
@@ -68,20 +67,19 @@ core.post("/action", async (c) => {
   const site = c.get("site");
   const action = await c.req.json();
   const { data, error } = await db.getBoard(site);
-  console.log("DATA FROM getBoard():");
-  console.log(data);
-  if (error) return c.json({ data: "error", error });
-  // @ts-ignore
-  const currentBoard = JSON.parse(data["board"]);
-
-  try {
-    const newBoard = reducer(currentBoard, action);
-    db.updateBoard(site, newBoard);
-    io.to(site).emit("board", newBoard);
-    return c.json({ data: "success", error: false });
-  } catch (err: any) {
-    console.log("caught error:", err);
-    return c.json({ data: "error", error: err.message });
+  if (data !== undefined) {
+    const currentBoard = JSON.parse(data["board"] as string);
+    try {
+      const newBoard = reducer(currentBoard, action);
+      db.updateBoard(site, newBoard);
+      io.to(site).emit("board", newBoard);
+      return c.json({ data: "success", error: false });
+    } catch (err: any) {
+      console.log("caught error:", err);
+      return c.json({ data: "error", error: err.message });
+    }
+  } else {
+    return c.json({ data: "error", error });
   }
 });
 

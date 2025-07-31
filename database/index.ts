@@ -6,7 +6,7 @@ const query = async (sql: string, args: any) => {
     const data = await turso.execute({ sql, args });
     return { data: data.rows[0], error: false };
   } catch (err) {
-    return { data: false, error: err };
+    return { error: err };
   }
 };
 
