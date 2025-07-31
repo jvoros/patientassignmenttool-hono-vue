@@ -1,6 +1,7 @@
+// @ts-ignore
 import { turso } from "./client.js";
 
-const query = async (sql, args) => {
+const query = async (sql: string, args: any) => {
   try {
     const data = await turso.execute({ sql, args });
     return { data: data.rows[0], error: false };
@@ -29,14 +30,14 @@ const getSiteSql = `
 
 const updateLogsSql = `
   INSERT INTO logs
-  `
+  `;
 
 export default {
-  getBoard: async (slug) => await query(getBoardSql, { slug }),
+  getBoard: async (slug: string) => await query(getBoardSql, { slug }),
 
-  updateBoard: async (slug, newBoard) => {
+  updateBoard: async (slug: string, newBoard: Board) => {
     return query(updateBoardSql, { slug, newBoard: JSON.stringify(newBoard) });
   },
 
-  getSite: async (slug) => await query(getSiteSql, { slug }),
-} as any;
+  getSite: async (slug: string) => await query(getSiteSql, { slug }),
+};
