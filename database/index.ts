@@ -29,8 +29,27 @@ const getSiteSql = `
   `;
 
 const updateLogsSql = `
-  INSERT INTO logs
+  INSERT OR REPLACE INTO logs (date, site, shift, provider, assigned, supervised, bounty)
+  VALUES (:date, :site, :shift, :provider, :assigned, :supervised, :bounty)
   `;
+
+const deleteLogsSql = `
+  DELETE FROM logs
+  WHERE date = :date AND site = :site
+  `;
+
+const logQuery = async (logs: LogItem[]) => {
+  const mappedParams = logs.map((log) => ({
+    sql: updateLogsSql,
+    args: { ...log, bounty: log.bounty ?? 0 },
+  }));
+  try {
+    const res = await turso.batch(mappedParams, "write");
+    return { data: "success", error: false };
+  } catch (err) {
+    return { error: err };
+  }
+};
 
 export default {
   getBoard: async (slug: string) => await query(getBoardSql, { slug }),
@@ -40,4 +59,9 @@ export default {
   },
 
   getSite: async (slug: string) => await query(getSiteSql, { slug }),
+
+  saveLogs: async (logs: LogItem[]) => await logQuery(logs),
+
+  deleteLogs: async (date: number, site: string) =>
+    await query(deleteLogsSql, { date, site }),
 };

@@ -47,11 +47,14 @@ const signInCheckReset = (
     schedule: ScheduleItem;
   },
 ): CoreResponse => {
-  const res = withUndo(Board.signIn)(board, params);
   if (params.schedule.reset) {
-    res.logs = Board.buildLogs(board.slug, board);
+    const logs = Board.buildLogs(board.slug, board);
+    const resetRes = withUndo(Board.reset)(board, null);
+    const res = withUndo(Board.signIn)(resetRes.board!, params);
+    res.logs = logs;
+    return res;
   }
-  return res;
+  return withUndo(Board.signIn)(board, params);
 };
 
 const reset = (board: Board): CoreResponse => {

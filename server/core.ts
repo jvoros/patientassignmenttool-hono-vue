@@ -45,8 +45,29 @@ type Action = {
 
 const reducer = (currentBoard: Board, action: Action): Board => {
   if (handlers2.includes(action.type)) {
-    const { board, error } = Board[action.type](currentBoard, action.payload);
+    const { board, error, logs } = Board[action.type](
+      currentBoard,
+      action.payload,
+    );
     if (error) throw error;
+    // logs only present after reset
+    if (logs !== undefined) {
+      console.log("[server.core] logs provided...");
+      db.saveLogs(logs);
+    }
+    // check for undo reset, need to delete logs
+    if (
+      action.type === "undo" &&
+      currentBoard.events[currentBoard.timeline[0]].message?.includes("reset")
+    ) {
+      console.log("[server.core] undo reset...");
+      const resetEvent = currentBoard.events[currentBoard.timeline[0]];
+      db.deleteLogs(
+        // event.note holds the previous day's board.date
+        resetEvent.note ? Number(resetEvent.note) : 0,
+        currentBoard.slug,
+      );
+    }
     return board;
   }
   return currentBoard;
@@ -55,6 +76,18 @@ const reducer = (currentBoard: Board, action: Action): Board => {
 // routes
 core.all("/board", async (c) => {
   const res = await db.getBoard(c.get("site"));
+  // turso empty row is string "null"
+  if (res.data?.board === "null") {
+    console.log("[server.core][/board] no board returned");
+    const siteRes = await db.getSite(c.get("site"));
+    const site = JSON.parse(siteRes.data?.site as string);
+    console.log("[server.core][/board] getting site...");
+    console.log(site);
+    const zoneConfig = site.zoneOrder.map((slug: string) => site.zones[slug]);
+    const newBoard = Board.build({ slug: c.get("site"), zoneConfig });
+    db.updateBoard(newBoard.slug, newBoard);
+    return c.json({ data: { board: JSON.stringify(newBoard) }, error: false });
+  }
   return c.json(res);
 });
 

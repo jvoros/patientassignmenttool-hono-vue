@@ -15,11 +15,12 @@ CREATE TABLE sites (
 );
 
 CREATE TABLE logs (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    date: INTEGER NOT NULL,
-    site: TEXT NOT NULL,
-    shift: TEXT NOT NULL,
-    provider: TEXT NOT NULL,
-    assigned: INTEGER,
-    supervised: INTEGER
+    date INTEGER NOT NULL,
+    site TEXT NOT NULL,
+    shift TEXT NOT NULL,
+    provider TEXT NOT NULL,
+    assigned INTEGER,
+    supervised INTEGER,
+    bounty INTEGER,
+    PRIMARY KEY (date, site, shift)
 );

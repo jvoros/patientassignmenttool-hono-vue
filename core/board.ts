@@ -36,7 +36,8 @@ const make = (params: {
 
 // RESET
 
-const reset = (board: Board): { board: Board; logs: LogItem[] } => {
+const reset = (board: Board): void => {
+  const oldDate = board.date;
   // immer works better with modifications rather than total replacement
   // do it immer way so undo patches work well
   board.date = Date.now();
@@ -51,13 +52,9 @@ const reset = (board: Board): { board: Board; logs: LogItem[] } => {
   // event
   const eventParams = {
     message: "Board reset",
+    note: `${oldDate}`,
   };
   addEvent(board, eventParams);
-
-  return {
-    board,
-    logs: buildLogs(board.slug, board),
-  };
 };
 
 // SIGN IN
