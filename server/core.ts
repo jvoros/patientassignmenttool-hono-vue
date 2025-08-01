@@ -52,7 +52,6 @@ const reducer = (currentBoard: Board, action: Action): Board => {
     if (error) throw error;
     // logs only present after reset
     if (logs !== undefined) {
-      console.log("[server.core] logs provided...");
       db.saveLogs(logs);
     }
     // check for undo reset, need to delete logs
@@ -60,7 +59,6 @@ const reducer = (currentBoard: Board, action: Action): Board => {
       action.type === "undo" &&
       currentBoard.events[currentBoard.timeline[0]].message?.includes("reset")
     ) {
-      console.log("[server.core] undo reset...");
       const resetEvent = currentBoard.events[currentBoard.timeline[0]];
       db.deleteLogs(
         // event.note holds the previous day's board.date
@@ -78,11 +76,8 @@ core.all("/board", async (c) => {
   const res = await db.getBoard(c.get("site"));
   // turso empty row is string "null"
   if (res.data?.board === "null") {
-    console.log("[server.core][/board] no board returned");
     const siteRes = await db.getSite(c.get("site"));
     const site = JSON.parse(siteRes.data?.site as string);
-    console.log("[server.core][/board] getting site...");
-    console.log(site);
     const zoneConfig = site.zoneOrder.map((slug: string) => site.zones[slug]);
     const newBoard = Board.build({ slug: c.get("site"), zoneConfig });
     db.updateBoard(newBoard.slug, newBoard);
