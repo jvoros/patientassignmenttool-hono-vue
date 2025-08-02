@@ -6,7 +6,7 @@ import Shift from "./Shift.vue";
 
 const { slug } = defineProps(["slug"]);
 const zone = computed(() => board.value.zones[slug]);
-const instructions = `Instructions for ${zone.value.name}`;
+const instructions = null;
 const isRotation = computed(() =>
     ["rotation", "dual"].includes(zone.value.type),
 );

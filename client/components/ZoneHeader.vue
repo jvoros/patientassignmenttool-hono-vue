@@ -9,7 +9,7 @@ const { title, inst } = defineProps(["title", "inst"]);
             <span><slot></slot></span>
         </div>
 
-        <aside>{{ inst }}</aside>
+        <aside v-if="inst">{{ inst }}</aside>
     </div>
 </template>
 

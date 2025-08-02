@@ -13,7 +13,7 @@ const config: SiteConfig = {
     },
     ft: {
       slug: "ft",
-      name: "Fast Track",
+      name: "Orange - Fast Track",
       type: "simple",
       superZone: "main",
       triggerSkip: true,
