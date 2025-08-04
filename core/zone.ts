@@ -140,7 +140,6 @@ type getNextIndexParams = {
 const getNextIndex = (params: getNextIndexParams): number => {
   const { zone, which, offset } = params;
   const current = zone[which] ?? 0;
-  console.log("getNextIndex current:", zone[which]);
   const arrayLength = zone.shifts.length;
   if (arrayLength === 0) return -1;
   return (current + offset + arrayLength) % arrayLength;

@@ -96,7 +96,7 @@ const toZone = (
     Shift.changeStatus({ shift, status: "skip" });
   }
 
-  if (hasPointer(zone)) {
+  if (hasPointer(zone) && shift.assigned > shift.bonus) {
     Zone.movePointer({ zone, shifts: board.shifts, which: "next", offset: 1 });
   }
 };
