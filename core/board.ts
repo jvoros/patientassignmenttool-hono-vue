@@ -47,6 +47,8 @@ const reset = (board: Board): void => {
   board.events = {};
   for (const slug in board.zones) {
     board.zones[slug].shifts = [];
+    board.zones[slug].next = null;
+    board.zones[slug].super = null;
   }
 
   // event
