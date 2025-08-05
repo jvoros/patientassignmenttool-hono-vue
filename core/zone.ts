@@ -73,20 +73,22 @@ const leaveZone = (params: {
   // handle pointers
   const pointerKeys: ZonePointer[] = ["next", "super"];
   pointerKeys.forEach((key) => {
-    let pointer = zone[key];
-    // if leaving is next or super, advance
-    // prevents edge case of removing last shift and wrapping to 0
-    if (index === zone[key]) {
-      movePointer({ zone, shifts, which: key, offset: 1 });
-      pointer = zone[key];
+    if (zoneRotatesPointer(key, zone)) {
+      let pointer = zone[key];
+      // if leaving is next or super, advance
+      // prevents edge case of removing last shift and wrapping to 0
+      if (index === zone[key]) {
+        movePointer({ zone, shifts, which: key, offset: 1 });
+        pointer = zone[key];
+      }
+      // if after advance still pointer means it is last shift, clear pointer
+      if (index === zone[key]) {
+        zone[key] = null;
+        pointer = zone[key];
+      }
+      // if index < pointer, need to decrement pointer
+      if (pointer !== null && index < pointer) zone[key] = pointer - 1;
     }
-    // if after advance still pointer means it is last shift, clear pointer
-    if (index === zone[key]) {
-      zone[key] = null;
-      pointer = zone[key];
-    }
-    // if index < pointer, need to decrement pointer
-    if (pointer !== null && index < pointer) zone[key] = pointer - 1;
   });
 
   // remove shift
