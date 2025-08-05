@@ -22,7 +22,13 @@ const isOffRot = computed(() => zone.slug === "off");
     <div class="shift" :class="{ next: useNextFlag, off: isOffRot }">
         <div v-if="useNextFlag" class="nextFlag">NEXT</div>
         <div class="menubar">
-            <span class="shiftName">{{ shift.name }}</span>
+            <div class="shiftName">
+                {{ shift.name }}
+                <span class="bonus" v-if="shift.bonus > shift.assigned">
+                    <b>Bonus:</b> {{ shift.bonus - shift.assigned }}
+                </span>
+            </div>
+
             <div class="menu">
                 <AssignPopover
                     :id="shift.id"
@@ -99,6 +105,11 @@ const isOffRot = computed(() => zone.slug === "off");
     display: flex;
     align-items: center;
     gap: 0.5rem;
+}
+
+.bonus {
+    color: var(--color-amber-500);
+    margin-left: 1rem;
 }
 
 .content {

@@ -30,12 +30,12 @@ const config: SiteConfig = {
 
   schedule: [
     { name: "6 am - 3 pm", bonus: 2, joins: "main", reset: true },
-    { name: "6 am - 3 pm APP", bonus: 0, joins: "main" },
+    { name: "6 am - 3 pm APP", bonus: 1, joins: "main" },
     { name: "8 am - 5 pm", bonus: 2, joins: "main" },
     { name: "11 am - 8 pm", bonus: 2, joins: "main" },
     { name: "3 pm - 11 pm", bonus: 2, joins: "main" },
-    { name: "3 pm - Midnight APP", bonus: 0, joins: "main" },
-    { name: "7 pm - 3 am APP", bonus: 0, joins: "main" },
+    { name: "3 pm - Midnight APP", bonus: 1, joins: "main" },
+    { name: "7 pm - 3 am APP", bonus: 1, joins: "main" },
     { name: "5 pm - 1 am", bonus: 2, joins: "main" },
     { name: "11 pm - 6 am", bonus: 2, joins: "main" },
   ],
